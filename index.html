@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Chat</title>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <section class="chat">
+      <h1 class="chat__title visually-hidden">Chat</h1>
+      <input
+        class="chat__user-name"
+        type="text"
+        aria-label="Ваше имя"
+        placeholder=" Your chat name"
+        required
+      />
+      <div class="chat__content"></div>
+      <form class="chat__form" action="" method="post">
+        <input
+          class="chat__form-input"
+          type="text"
+          aria-label="Ваше сообщение"
+          placeholder="message..."
+          required
+        />
+        <button class="chat__form-button btn" type="submit">Send</button>
+      </form>
+    </section>
+    <template id="template__message">
+      <div
+        class="template__chat-message template__chat-message_outgoing"
+        tabindex="0"
+      >
+        <span class="template__chat-message-name"></span>
+        <p class="template__chat-message-text"></p>
+      </div>
+    </template>
+    <script src="../js/main.js"></script>
+  </body>
+</html>
