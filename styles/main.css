@@ -417,13 +417,6 @@ body {
   clip-path: inset(100%);
 }
 
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
-}
-
 .chat {
   display: flex;
   flex-direction: column;
@@ -526,26 +519,10 @@ body {
 }
 
 @media screen and (min-width: 36rem) {
-  .container {
-    max-width: 31.875rem;
-  }
-}
-
-@media screen and (min-width: 48rem) {
-  .container {
-    max-width: 43.125rem;
-  }
-}
-
-@media screen and (min-width: 62rem) {
-  .container {
-    max-width: 58.125rem;
-  }
-}
-
-@media screen and (min-width: 75rem) {
-  .container {
-    max-width: 69.375rem;
+  .chat {
+    width: 100vw;
+    height: 100vh;
+    margin-top: 0;
   }
 }
 
