@@ -1,1 +1,1 @@
-import "newMessage";
+import "./newMessage.js";
