@@ -487,6 +487,7 @@ body {
 
 .template__chat-message {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   max-width: 265px;
   background: #ffffff;
@@ -511,6 +512,7 @@ body {
 }
 
 .template__chat-message-text {
+  display: inline-block;
   max-width: 265px;
   margin: 0;
   font-family: "Roboto", sans-serif;
@@ -519,6 +521,11 @@ body {
   color: #000000;
   word-wrap: break-word;
   white-space: pre-wrap;
+}
+
+.template__chat-message-time {
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media screen and (max-width: 768px) {

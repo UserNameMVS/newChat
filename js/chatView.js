@@ -17,12 +17,31 @@ function createNewMessage (userName, textMessage) {
   let textNewMessage = newMessage.querySelector('.template__chat-message-text');
   textNewMessage.textContent = textMessage;
 
+  let timeMessage = newMessage.querySelector('.template__chat-message-time');
+  timeMessage.textContent = zeroFirstFormat( currentTime() );
+
   return newMessage;
 }
 
 function sendMessage (userName, textMessage) {
   messageList.appendChild(createNewMessage(userName, textMessage));
   inputMessage.value = "";
+}
+
+function currentTime () {
+  let currentDate = new Date();
+  let currentHour = currentDate.getHours();
+  let currentMinutes = currentDate.getMinutes();
+
+  return currentHour + ":" + currentMinutes;
+}
+
+function zeroFirstFormatTime(value) {
+  if (value < 10) {
+      value ='0'+ value;
+  }
+  
+  return value;
 }
 
 formInputSendMessage.addEventListener('submit', function(e){
