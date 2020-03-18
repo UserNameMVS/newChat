@@ -18,7 +18,7 @@ function createNewMessage (userName, textMessage) {
   textNewMessage.textContent = textMessage;
 
   let timeMessage = newMessage.querySelector('.template__chat-message-time');
-  timeMessage.textContent = zeroFirstFormat( currentTime() );
+  timeMessage.textContent = addZeroFormatTime( currentTime() );
 
   return newMessage;
 }
@@ -36,9 +36,9 @@ function currentTime () {
   return currentHour + ":" + currentMinutes;
 }
 
-function zeroFirstFormatTime(value) {
+function addZeroFormatTime(value) {
   if (value < 10) {
-      value ='0'+ value;
+      value = '0'+ value;
   }
   
   return value;
