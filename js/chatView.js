@@ -1,31 +1,28 @@
 'use strict';
 
-const messageList = document.querySelector('.chat__content');
-const inputUserName = document.querySelector('.chat__user-name');
-const formInputSendMessage = document.querySelector('.chat__form');
-const inputMessage = formInputSendMessage.querySelector('.chat__form-input');
-const templateMessageContent = document.querySelector('#template__message').content;
-const templateNewMessage = templateMessageContent.querySelector('.template__chat-message');
+import { sendMessage } from "./controller.js";
 
-function createNewMessage (userName, textMessage) {
-  let newMessage = templateNewMessage.cloneNode(true);
+export const messageList = document.querySelector('.chat__content');
+export const inputUserName = document.querySelector('.chat__user-name');
+export const formInputSendMessage = document.querySelector('.chat__form');
+export const inputMessage = formInputSendMessage.querySelector('.chat__form-input');
+export const templateMessageContent = document.querySelector('#template__message').content;
+export const templateNewMessage = templateMessageContent.querySelector('.template__chat-message');
+export let newMessage = templateNewMessage.cloneNode(true);
+export let userNameNewMessage = newMessage.querySelector('.template__chat-message-name');
+export let textNewMessage = newMessage.querySelector('.template__chat-message-text');
+export let timeNewMessage = newMessage.querySelector('.template__chat-message-time');
 
-  let userNameNewMessage = newMessage.querySelector('.template__chat-message-name');
+export function createNewMessage (userName, textMessage) {
+  
   userNameNewMessage.textContent = userName + ": ";
   if(!userName) userNameNewMessage.textContent = "Anonymous: " ;
-
-  let textNewMessage = newMessage.querySelector('.template__chat-message-text');
+  
   textNewMessage.textContent = textMessage;
-
-  let timeMessage = newMessage.querySelector('.template__chat-message-time');
-  timeMessage.textContent = currentTime();
+  
+  timeNewMessage.textContent = currentTime();
 
   return newMessage;
-}
-
-function sendMessage (userName, textMessage) {
-  messageList.appendChild(createNewMessage(userName, textMessage));
-  inputMessage.value = "";
 }
 
 function currentTime () {
@@ -38,7 +35,7 @@ function currentTime () {
 
 function addZeroFormatTime(value) {
   if (value < 10) {
-      value = '0'+ value;
+      value = '0' + value;
   }
   
   return value;
@@ -47,6 +44,8 @@ function addZeroFormatTime(value) {
 formInputSendMessage.addEventListener('submit', function(e){
   e.preventDefault();
   let userNameValue = inputUserName.value;
+  if(!userNameValue) userNameValue = "Anonymous";
   let messageValue = inputMessage.value;
   sendMessage(userNameValue, messageValue);
 });
+
