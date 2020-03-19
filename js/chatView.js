@@ -2,25 +2,25 @@
 
 import {
   formInputSendMessage,
-  newMessage,
   inputUserName,
   inputMessage,
-  userNameNewMessage, 
-  textNewMessage,
-  timeNewMessage,
+  templateNewMessage
 } from "./uiElements.js";
 
 import { sendMessage } from "./controller.js";
 
 export function createNewMessage (userName, textMessage) {
+  let newMessage = templateNewMessage.cloneNode(true);
   
-  userNameNewMessage.textContent = userName + ": ";
-  if(!userName) userNameNewMessage.textContent = "Anonymous: " ;
-  
+  let userNameNewMessage = newMessage.querySelector('.template__chat-message-name');
+  userNameNewMessage.textContent = userName;
+
+  let textNewMessage = newMessage.querySelector('.template__chat-message-text');
   textNewMessage.textContent = textMessage;
   
+  let timeNewMessage = newMessage.querySelector('.template__chat-message-time');
   timeNewMessage.textContent = currentTime();
-
+  
   return newMessage;
 }
 
@@ -33,17 +33,18 @@ function currentTime () {
 }
 
 function addZeroFormatTime(value) {
-  if (value < 10) {
-      value = '0' + value;
-  }
-  
+  if (value < 10) value = '0' + value;
   return value;
 }
 
 formInputSendMessage.addEventListener('submit', function(e){
   e.preventDefault();
   let userNameValue = inputUserName.value;
-  if(!userNameValue) userNameValue = "Anonymous";
+  if(!userNameValue) {
+    userNameValue = "Anonymous: "
+  } else {
+    userNameValue += ": "
+  }
   let messageValue = inputMessage.value;
   sendMessage(userNameValue, messageValue);
 });
