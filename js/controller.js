@@ -1,7 +1,8 @@
 'use strict';
 
 import { socket } from "./client.js";
-import { messageList, inputMessage, createNewMessage } from "./chatView.js";
+import { messageList, inputMessage } from "./uiElements.js";
+import { createNewMessage } from "./chatView.js";
 
 socket.on("message", function(msg) {
   console.log(msg);
