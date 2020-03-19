@@ -39,13 +39,11 @@ function addZeroFormatTime(value) {
 
 formInputSendMessage.addEventListener('submit', function(e){
   e.preventDefault();
+
   let userNameValue = inputUserName.value;
-  if(!userNameValue) {
-    userNameValue = "Anonymous: "
-  } else {
-    userNameValue += ": "
-  }
+  userNameValue ? userNameValue += ": " : userNameValue = "Anonymous: ";
   let messageValue = inputMessage.value;
+
   sendMessage(userNameValue, messageValue);
 });
 
