@@ -12,13 +12,16 @@
   </head>
   <body>
     <section class="chat">
-      <input
-        class="chat__user-name"
-        type="text"
-        aria-label="Ваше имя"
-        placeholder="Your chat name"
-        required
-      />
+      <div class="chat__inner">
+        <input
+          class="chat__user-name"
+          type="text"
+          aria-label="Ваше имя"
+          placeholder="Your chat name"
+          required
+        />
+        <button class="chat__sign-in btn">Sign in</button>
+      </div>
       <div class="chat__content"></div>
       <form class="chat__form" action="" method="post">
         <input
@@ -31,16 +34,70 @@
         <button class="chat__form-button btn" type="submit">Send</button>
       </form>
     </section>
+    <section
+      class="account overlay"
+      aria-hidden="true"
+      tabindex="-1"
+      role="dialog"
+    >
+      <div class="account__popup popup">
+        <h2 class="popup__title" aria-labelledby="modalTitle">
+          Создать аккаунт
+        </h2>
+        <label class="popup__label" for="account-login">Имя (логин)</label>
+        <input
+          class="popup__input popup__input--login"
+          id="account-login"
+          type="text"
+        />
+        <label class="popup__label" for="account-password">Пароль</label>
+        <input
+          class="popup__input popup__input--password"
+          id="account-password"
+          type="password"
+        />
+        <button class="popup__button">Создать</button>
+        <a href="" class="popup__link">У меня уже есть аккаунт (войти)</a>
+        <button class="popup__btn-close">Закрыть</button>
+      </div>
+    </section>
+    <section
+      class="authorization overlay visually-hidden"
+      aria-hidden="true"
+      tabindex="-1"
+      role="dialog"
+    >
+      <div class="authorization__popup popup">
+        <h2 class="popup__title" aria-labelledby="modalTitle">Авторизация</h2>
+        <label class="popup__label" for="authorization-login">
+          Имя (логин)</label
+        >
+        <input
+          class="popup__input popup__input--login"
+          id="authorization__login"
+          type="text"
+        />
+        <label class="popup__label" for="authorization-password">Пароль</label>
+        <input
+          class="popup__input popup__input--password"
+          id="authorization-password"
+          type="password"
+        />
+        <button class="popup__button">Войти</button>
+        <a href="" class="popup__link">Регистрация</a>
+        <button class="popup__btn-close">Закрыть</button>
+      </div>
+    </section>
     <template id="template__message">
       <div
-        class="template__chat-message template__chat-message_outgoing"
+        class="template__chat-message template__chat-message--outgoing"
         tabindex="0"
       >
-      <div class="template__chat-message-inner">
-        <span class="template__chat-message-name"></span>
-        <p class="template__chat-message-text"></p>
-      </div>
-      <time class="template__chat-message-time" pubdate></time>
+        <div class="template__chat-message-inner">
+          <span class="template__chat-message-name"></span>
+          <p class="template__chat-message-text"></p>
+        </div>
+        <time class="template__chat-message-time" pubdate></time>
       </div>
     </template>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
