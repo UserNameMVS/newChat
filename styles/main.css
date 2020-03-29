@@ -424,6 +424,7 @@ body {
       -ms-flex-pack: justify;
           justify-content: space-between;
   width: 100%;
+  margin-bottom: 8px;
 }
 
 .chat__user-name {
@@ -439,12 +440,6 @@ body {
   color: #7c7c7c;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-}
-
-.chat__sign-in {
-  -ms-flex-preferred-size: 70px;
-      flex-basis: 70px;
-  margin-left: 8px;
 }
 
 .chat__content {
