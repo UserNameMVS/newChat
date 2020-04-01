@@ -43,7 +43,7 @@ export const createUser = (userName, userPassword) => {
   const config = {
     method: "POST",
     headers: {
-      accept: "application/json",
+      "Accept": "application/json",
       "Content-Type": "application/json"
     },
     body: JSON.stringify(payload)

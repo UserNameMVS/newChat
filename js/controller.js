@@ -2,14 +2,21 @@
 
 import { socket } from "./client.js";
 import { messageList, inputMessage } from "./uiElements.js";
-import { createNewMessage } from "./chatView.js";
+import { createMessage } from "./chatView.js";
+
+function addMessageToChat (message) {
+  messageList.appendChild(message);
+}
 
 socket.on("message", function(msg) {
-  console.log(msg);
-  messageList.appendChild(createNewMessage(msg.user, msg.message));
+  addMessageToChat(createMessage(msg.user, msg.message));
 });
+
+inputMessage.clear = function() {
+  this.value = "";
+}
 
 export function sendMessage (userName, textMessage) {
   socket.emit("message", {user: userName, message: textMessage});
-  inputMessage.value = "";
+  inputMessage.clear();
 }
