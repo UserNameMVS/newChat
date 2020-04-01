@@ -13,7 +13,7 @@ import { serverURL } from "./config.js";
 export const apiRequest = async (apiPath, params, config) => {
   try {
     let res = await fetch(serverURL + apiPath + params, config);
-    let data = res.json();
+    let data = await res.json();
     console.log(data); //return data
   } catch (err) {
     console.error("Ошибка: ", err);
