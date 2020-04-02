@@ -507,7 +507,7 @@ body {
   justify-self: flex-end;
 }
 
-.template__chat-message_incoming {
+.template__chat-message--incoming {
   justify-self: flex-start;
 }
 
