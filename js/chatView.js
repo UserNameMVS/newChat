@@ -1,6 +1,7 @@
 'use strict';
 
 import {
+  messageList,
   formInputSendMessage,
   inputUserName,
   inputMessage,
@@ -16,8 +17,16 @@ export function createMessage (userName, textMessage) {
   textNewMessage.textContent = textMessage;
   const timeNewMessage = newMessage.querySelector('.template__chat-message-time');
   timeNewMessage.textContent = currentTime();
-  
+
   return newMessage;
+}
+
+function checkValidationTextMessage () {
+  let textMessage = inputMessage.value;
+  textMessage = textMessage.trim();
+  if(textMessage) {
+    return inputMessage.value = textMessage;
+  } 
 }
 
 function currentTime () {
@@ -33,8 +42,14 @@ function addZeroFormatTime(value) {
   return value;
 }
 
+export function addMessageToChat (message) {
+  messageList.appendChild(message);
+}
+
 formInputSendMessage.addEventListener('submit', function(e){
   e.preventDefault();
-  sendMessage(inputUserName.value, inputMessage.value);
+  if(checkValidationTextMessage()) {
+    sendMessage(inputUserName.value, inputMessage.value)
+  }
 });
 

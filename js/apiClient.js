@@ -2,38 +2,28 @@
 
 import { serverURL } from "./config.js";
 
-// export const apiRequest = (apiPath, params, config) => {
-//   return new Promise(resolve => {
-//     let res = fetch(serverURL + apiPath + params, config);
-//     resolve(res)
-//   }).then(res => console.log(res.json()))
-//     .catch(err => console.error("Ошибка: ", err));
-// };
-
 export const apiRequest = async (apiPath, params, config) => {
   try {
     let res = await fetch(serverURL + apiPath + params, config);
     let data = await res.json();
-    console.log(data); //return data
+    return data;
   } catch (err) {
     console.error("Ошибка: ", err);
   }
 };
 
-apiRequest("/api/user?", "username=Jonh", { method: "GET" });
-
-export const getUser = userName => {
+export const getUser = async userName => {
   let params = `username=${userName}`;
   const apiPath = "/api/user?";
   const config = {
     method: "GET"
   };
-  return apiRequest(apiPath, params, config);
+  console.log(await apiRequest(apiPath, params, config));
 };
 
-getUser("John");
+// getUser("vlad");
 
-export const createUser = (userName, userPassword) => {
+export const createUser = async (userName, userPassword) => {
   let params = `username=${userName}`;
   const apiPath = "/api/user?";
   const payload = {
@@ -48,8 +38,8 @@ export const createUser = (userName, userPassword) => {
     },
     body: JSON.stringify(payload)
   };
-  return apiRequest(apiPath, params, config);
+  console.log(await apiRequest(apiPath, params, config));
 };
 
-// createUser("vlad", "ant555");
+// createUser("testUser", "ant555");
 
