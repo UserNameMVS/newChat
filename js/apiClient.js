@@ -1,6 +1,10 @@
 "use strict";
 
 import { serverURL } from "./config.js";
+import {
+  inputLogin,
+  inputPassword
+} from "./uiElements.js";
 
 export const apiRequest = async (apiPath, params, config) => {
   try {
@@ -42,4 +46,20 @@ export const createUser = async (userName, userPassword) => {
 };
 
 // createUser("testUser", "ant555");
+
+function checkValidationLogin () {
+  let loginUser = inputLogin.value;
+  loginUser = loginUser.trim();
+  if (loginUser.length < 2) {
+    console.log("Длина имени пользователя должна быть не менее 2-х символов");
+  }
+}
+
+function checkValidationLPassword () {
+  let passwordUser = inputPassword.value;
+  passwordUser = passwordUser.trim();
+  if (passwordUser.length < 4) {
+    console.log("Длина пароля должна быть не менее 4-х символов");
+  }
+}
 
