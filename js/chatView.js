@@ -13,6 +13,11 @@ export function createMessage (userName, textMessage) {
   const newMessage = templateNewMessage.cloneNode(true);
   const userNameNewMessage = newMessage.querySelector('.template__chat-message-name');
   userNameNewMessage.textContent = userName;
+  if(userName === inputUserName.value) {
+    newMessage.classList.add('template__chat-message--outgoing');
+  } else {
+    newMessage.classList.add('template__chat-message--incoming');
+  }
   const textNewMessage = newMessage.querySelector('.template__chat-message-text');
   textNewMessage.textContent = textMessage;
   const timeNewMessage = newMessage.querySelector('.template__chat-message-time');
