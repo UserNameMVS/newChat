@@ -5,25 +5,26 @@ import {
   formInputSendMessage,
   inputUserName,
   inputMessage,
-  templateNewMessage
+  templateMessage
 } from "./uiElements.js";
 import { sendMessage } from "./controller.js";
-
-export function createMessage (userName, textMessage) {
-  const newMessage = templateNewMessage.cloneNode(true);
-  const userNameNewMessage = newMessage.querySelector('.template__chat-message-name');
-  userNameNewMessage.textContent = userName;
-  if(userName === inputUserName.value) {
-    newMessage.classList.add('template__chat-message--outgoing');
-  } else {
-    newMessage.classList.add('template__chat-message--incoming');
+export class Message {
+  constructor(userName, textMessage) {
+    this.userName = userName;
+    this.textMessage = textMessage;
+    this.message = templateMessage.cloneNode(true);
+    this.message.querySelector('.template__chat-message-name').textContent = this.userName;
+    this.message.querySelector('.template__chat-message-text').textContent = this.textMessage;
+    this.message.querySelector('.template__chat-message-time').textContent = currentTime();
+    if(userName === inputUserName.value) {
+      this.message.classList.add('template__chat-message--outgoing');
+    } else {
+      this.message.classList.add('template__chat-message--incoming');
+    }
   }
-  const textNewMessage = newMessage.querySelector('.template__chat-message-text');
-  textNewMessage.textContent = textMessage;
-  const timeNewMessage = newMessage.querySelector('.template__chat-message-time');
-  timeNewMessage.textContent = currentTime();
-
-  return newMessage;
+  addMessage() {
+    messageList.appendChild(this.message);
+  }
 }
 
 function checkValidationTextMessage () {
@@ -47,14 +48,9 @@ function addZeroFormatTime(value) {
   return value;
 }
 
-export function addMessageToChat (message) {
-  messageList.appendChild(message);
-}
-
 formInputSendMessage.addEventListener('submit', function(e){
   e.preventDefault();
   if(checkValidationTextMessage()) {
     sendMessage(inputUserName.value, inputMessage.value)
   }
 });
-

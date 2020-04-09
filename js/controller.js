@@ -2,10 +2,11 @@
 
 import { socket } from "./client.js";
 import { inputMessage } from "./uiElements.js";
-import { createMessage, addMessageToChat } from "./chatView.js";
+import { Message } from "./chatView.js";
 
 socket.on("message", function(msg) {
-  addMessageToChat(createMessage(msg.user, msg.message));
+  const newMessage = new Message(msg.user, msg.message);
+  newMessage.addMessage();
 });
 
 export function sendMessage (userName, textMessage) {

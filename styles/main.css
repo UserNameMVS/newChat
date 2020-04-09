@@ -683,4 +683,8 @@ body {
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
 }
+
+.hide {
+  display: none;
+}
 /*# sourceMappingURL=main.css.map */
