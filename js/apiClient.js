@@ -56,8 +56,10 @@ export const authLoginAndPassword = async (userName, userPassword) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
-  };
-  console.log(await apiRequest(apiPath, config));
+  }
+  let data = await apiRequest(apiPath, config);
+  const token = data.token;
+  console.log(token) //return token
 }
 
 authLoginAndPassword("testUser", "ant555")
