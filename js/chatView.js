@@ -13,9 +13,9 @@ export class Message {
     this.userName = userName;
     this.textMessage = textMessage;
     this.message = templateMessage.cloneNode(true);
-    this.message.querySelector('.template__chat-message-name').textContent = this.userName;
-    this.message.querySelector('.template__chat-message-text').textContent = this.textMessage;
-    this.message.querySelector('.template__chat-message-time').textContent = currentTime();
+    this.message.querySelector('#message-user-name').textContent = this.userName;
+    this.message.querySelector('#message-text').textContent = this.textMessage;
+    this.message.querySelector('#message-time').textContent = currentTime();
     if(userName === inputUserName.value) {
       this.message.classList.add('template__chat-message--outgoing');
     } else {
@@ -27,12 +27,11 @@ export class Message {
   }
 }
 
-function checkValidationTextMessage () {
-  let textMessage = inputMessage.value;
-  textMessage = textMessage.trim();
-  if(textMessage) {
-    return inputMessage.value = textMessage;
-  } 
+function isValidTextMessage(value) {
+  value = value.trim();
+  if(value) {
+    return inputMessage.value = value;
+  }
 }
 
 function currentTime () {
@@ -48,9 +47,11 @@ function addZeroFormatTime(value) {
   return value;
 }
 
-formInputSendMessage.addEventListener('submit', function(e){
+formInputSendMessage.addEventListener('submit', submitFormHadler);
+
+function submitFormHadler(e) {
   e.preventDefault();
-  if(checkValidationTextMessage()) {
+  if(isValidTextMessage(inputMessage.value)) {
     sendMessage(inputUserName.value, inputMessage.value)
   }
-});
+}

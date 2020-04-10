@@ -1,12 +1,9 @@
 "use strict";
 
 import { serverURL } from "./config.js";
-import {
-  inputLogin,
-  inputPassword
-} from "./uiElements.js";
+import { inputLogin, inputPassword } from "./uiElements.js";
 
-export const apiRequest = async (apiPath, params, config) => {
+export const apiRequest = async (apiPath, config, params) => {
   try {
     let res = await fetch(serverURL + apiPath + params, config);
     let data = await res.json();
@@ -16,13 +13,13 @@ export const apiRequest = async (apiPath, params, config) => {
   }
 };
 
-export const getUser = async userName => {
+export const getUser = async (userName) => {
   let params = `username=${userName}`;
   const apiPath = "/api/user?";
   const config = {
-    method: "GET"
+    method: "GET",
   };
-  console.log(await apiRequest(apiPath, params, config));
+  console.log(await apiRequest(apiPath, config, params));
 };
 
 // getUser("vlad");
@@ -32,22 +29,40 @@ export const createUser = async (userName, userPassword) => {
   const apiPath = "/api/user?";
   const payload = {
     username: userName,
-    password: userPassword
-  }
+    password: userPassword,
+  };
   const config = {
     method: "POST",
     headers: {
       "Accept": "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   };
-  console.log(await apiRequest(apiPath, params, config));
+  console.log(await apiRequest(apiPath, config, params));
 };
 
 // createUser("testUser", "ant555");
 
-function checkValidationLogin () {
+export const authLoginAndPassword = async (userName, userPassword) => {
+  const apiPath = "/api/user/auth?";
+  const payload = {
+    username: userName,
+    password: userPassword,
+  };
+  const config = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  };
+  console.log(await apiRequest(apiPath, config));
+}
+
+authLoginAndPassword("testUser", "ant555")
+
+function checkValidationLogin() {
   let loginUser = inputLogin.value;
   loginUser = loginUser.trim();
   if (loginUser.length < 2) {
@@ -55,11 +70,10 @@ function checkValidationLogin () {
   }
 }
 
-function checkValidationLPassword () {
+function checkValidationLPassword() {
   let passwordUser = inputPassword.value;
   passwordUser = passwordUser.trim();
   if (passwordUser.length < 4) {
     console.log("Длина пароля должна быть не менее 4-х символов");
   }
 }
-

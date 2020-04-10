@@ -15,6 +15,7 @@
       <div class="chat__inner">
         <input
           class="chat__user-name"
+          id="input-user-name"
           type="text"
           aria-label="Ваше имя"
           placeholder="Your chat name"
@@ -23,8 +24,8 @@
         <button class="chat__settings btn">settings</button>
         <button class="chat__log-in btn">log in</button>
       </div>
-      <div class="chat__content"></div>
-      <form class="chat__form" action="" method="post">
+      <div class="chat__content" id="chat-content"></div>
+      <form class="chat__form" id="chat-form" action="" method="post">
         <input
           class="chat__form-input"
           type="text"
@@ -37,6 +38,7 @@
     </section>
     <section
       class="account overlay hide"
+      id="account"
       aria-hidden="true"
       tabindex="-1"
       role="dialog"
@@ -90,15 +92,19 @@
       </div>
     </section>
     <template id="template__message">
-      <div
-        class="template__chat-message"
-        tabindex="0"
-      >
+      <div class="template__chat-message" tabindex="0">
         <div class="template__chat-message-inner">
-          <span class="template__chat-message-name"></span>
-          <p class="template__chat-message-text"></p>
+          <span
+            class="template__chat-message-name"
+            id="message-user-name"
+          ></span>
+          <p class="template__chat-message-text" id="message-text"></p>
         </div>
-        <time class="template__chat-message-time" pubdate></time>
+        <time
+          class="template__chat-message-time"
+          id="message-time"
+          pubdate
+        ></time>
       </div>
     </template>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
