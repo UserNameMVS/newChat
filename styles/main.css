@@ -651,6 +651,7 @@ body {
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
+  cursor: pointer;
 }
 
 .popup__btn-close {

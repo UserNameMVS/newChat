@@ -13,16 +13,16 @@
   <body>
     <section class="chat">
       <div class="chat__inner">
-        <input
+        <!-- <input
           class="chat__user-name"
           id="input-user-name"
           type="text"
           aria-label="Ваше имя"
           placeholder="Your chat name"
           required
-        />
+        /> -->
         <button class="chat__settings btn">settings</button>
-        <button class="chat__log-in btn">log in</button>
+        <button class="chat__log-out btn" id="log-out">Log out</button>
       </div>
       <div class="chat__content" id="chat-content"></div>
       <form class="chat__form" id="chat-form" action="" method="post">
@@ -38,7 +38,7 @@
     </section>
     <section
       class="account overlay hide"
-      id="account"
+      id="account-page"
       aria-hidden="true"
       tabindex="-1"
       role="dialog"
@@ -59,13 +59,14 @@
           id="account-password"
           type="password"
         />
-        <button class="popup__button">Создать</button>
-        <a href="" class="popup__link">У меня уже есть аккаунт (войти)</a>
+        <button class="popup__button" id="btn-create-account">Создать</button>
+        <a class="popup__link" id="link-to-auth-page">У меня уже есть аккаунт (войти)</a>
         <button class="popup__btn-close">Закрыть</button>
       </div>
     </section>
     <section
-      class="authorization overlay hide"
+      class="authorization overlay"
+      id="auth-page"
       aria-hidden="true"
       tabindex="-1"
       role="dialog"
@@ -77,17 +78,17 @@
         >
         <input
           class="popup__input popup__input--login"
-          id="authorization__login"
+          id="auth-login"
           type="text"
         />
         <label class="popup__label" for="authorization-password">Пароль</label>
         <input
           class="popup__input popup__input--password"
-          id="authorization-password"
+          id="auth-password"
           type="password"
         />
-        <button class="popup__button">Войти</button>
-        <a href="" class="popup__link">Регистрация</a>
+        <button class="popup__button" id="auth-btn">Войти</button>
+        <a class="popup__link" id="link-to-account-page">Регистрация</a>
         <button class="popup__btn-close">Закрыть</button>
       </div>
     </section>
