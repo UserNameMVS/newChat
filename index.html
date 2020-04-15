@@ -92,6 +92,30 @@
         <button class="popup__btn-close">Закрыть</button>
       </div>
     </section>
+    <section
+      class="settings overlay"
+      id="settings-page"
+      aria-hidden="true"
+      tabindex="-1"
+      role="dialog"
+    >
+      <div class="settings__popup popup">
+        <p class="popup__title" aria-labelledby="modalTitle">Настройки</p>
+        <label class="popup__label" for="settings-login">
+          Имя в чате</label
+        >
+        <div class="popup__inner">
+          <input
+          class="popup__input popup__input--settings"
+          id="settings-login"
+          type="text"
+          placeholder="Стив"
+        />
+        <button class="popup__button" id="setting-btn">-></button>
+        </div>
+        <button class="popup__btn-close">Закрыть</button>
+      </div>
+    </section>
     <template id="template__message">
       <div class="template__chat-message" tabindex="0">
         <div class="template__chat-message-inner">
