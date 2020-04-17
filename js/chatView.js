@@ -5,9 +5,10 @@ import {
   formInputSendMessage,
   inputUserName,
   inputMessage,
-  templateMessage
+  templateMessage,
 } from "./uiElements.js";
 import { sendMessage } from "./controller.js";
+import { getCookie } from "./apiClient.js";
 export class Message {
   constructor(userName, textMessage) {
     this.userName = userName;
@@ -16,7 +17,7 @@ export class Message {
     this.message.querySelector('#message-user-name').textContent = this.userName;
     this.message.querySelector('#message-text').textContent = this.textMessage;
     this.message.querySelector('#message-time').textContent = currentTime();
-    if(userName === inputUserName.value) {
+    if(userName === getCookie("chatname")) {
       this.message.classList.add('template__chat-message--outgoing');
     } else {
       this.message.classList.add('template__chat-message--incoming');
@@ -52,6 +53,6 @@ formInputSendMessage.addEventListener('submit', submitFormHadler);
 function submitFormHadler(e) {
   e.preventDefault();
   if(isValidTextMessage(inputMessage.value)) {
-    sendMessage(inputUserName.value, inputMessage.value)
+    sendMessage(getCookie("chatname"), inputMessage.value)
   }
 }

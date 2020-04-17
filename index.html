@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
-    <section class="chat">
+    <section class="chat hide" id="chat-page">
       <div class="chat__inner">
         <!-- <input
           class="chat__user-name"
@@ -21,8 +21,8 @@
           placeholder="Your chat name"
           required
         /> -->
-        <button class="chat__settings btn">settings</button>
-        <button class="chat__log-out btn" id="log-out">Log out</button>
+        <button class="chat__settings btn" id="setting-link">settings</button>
+        <button class="chat__log-out btn" id="log-out-btn">Log out</button>
       </div>
       <div class="chat__content" id="chat-content"></div>
       <form class="chat__form" id="chat-form" action="" method="post">
@@ -61,7 +61,7 @@
         />
         <button class="popup__button" id="btn-create-account">Создать</button>
         <a class="popup__link" id="link-to-auth-page">У меня уже есть аккаунт (войти)</a>
-        <button class="popup__btn-close">Закрыть</button>
+        <!-- <button class="popup__btn-close">Закрыть</button> -->
       </div>
     </section>
     <section
@@ -89,11 +89,11 @@
         />
         <button class="popup__button" id="auth-btn">Войти</button>
         <a class="popup__link" id="link-to-account-page">Регистрация</a>
-        <button class="popup__btn-close">Закрыть</button>
+        <!-- <button class="popup__btn-close">Закрыть</button> -->
       </div>
     </section>
     <section
-      class="settings overlay"
+      class="settings overlay hide"
       id="settings-page"
       aria-hidden="true"
       tabindex="-1"
@@ -101,13 +101,13 @@
     >
       <div class="settings__popup popup">
         <p class="popup__title" aria-labelledby="modalTitle">Настройки</p>
-        <label class="popup__label" for="settings-login">
+        <label class="popup__label" for="setting-login">
           Имя в чате</label
         >
         <div class="popup__inner">
           <input
-          class="popup__input popup__input--settings"
-          id="settings-login"
+          class="popup__input popup__input--setting"
+          id="setting-input"
           type="text"
           placeholder="Стив"
         />

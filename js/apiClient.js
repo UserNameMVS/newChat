@@ -2,9 +2,10 @@
 
 import { serverURL } from "./config.js";
 import {
+  chatPage,
   inputLoginAccount,
   inputPasswordAccount,
-  logOut,
+  logOutBtn,
   authPage,
   linkToAccount,
   accountPage,
@@ -13,6 +14,11 @@ import {
   inputLoginAuth,
   inputPasswordAuth,
   authButton,
+  linkToSetting,
+  settingsPage,
+  settingInput,
+  settingBtn,
+  closeBtn,
 } from "./uiElements.js";
 
 export const apiRequest = async (apiPath, config, params) => {
@@ -28,32 +34,34 @@ export const apiRequest = async (apiPath, config, params) => {
   }
 };
 
-export const getUser = async (username) => {
+export const getUser = (username) => {
   const apiPath = "/api/user?";
   const config = {
     method: "GET",
   };
   let params = `username=${username}`;
-  apiRequest(apiPath, config, params).then((data) =>
-    data.user.username
-  );
+  return apiRequest(apiPath, config, params);
 };
 
-function addUser() {
-  let loginUser = inputLoginAccount.value;
-  let passwordUser = inputPasswordAccount.value;
-  checkValidLogin(loginUser);
-  checkValidPassword(passwordUser);
+// getUser("testUser").then(data => console.log(data))
+
+function addUser(username, password) {
+  checkValidLogin(username);
+  checkValidPassword(password);
   if (checkValidLogin && checkValidPassword) {
-    loginUser = checkValidLogin(loginUser);
-    passwordUser = checkValidPassword(passwordUser);
-    createUser(loginUser, passwordUser);
+    username = checkValidLogin(username);
+    password = checkValidPassword(password);
+    createUser(username, password);
   }
 }
 
-btnCreateAccount.addEventListener("click", addUser);
+btnCreateAccount.addEventListener("click", function () {
+  let username = inputLoginAccount.value;
+  let password = inputPasswordAccount.value;
+  addUser(username, password).then(() => authUser(username, password))
+});
 
-export const createUser = async (username, password) => {
+export const createUser = (username, password) => {
   let params = `username=${username}`;
   const apiPath = "/api/user?";
   const payload = {
@@ -63,7 +71,7 @@ export const createUser = async (username, password) => {
   const config = {
     method: "POST",
     headers: {
-      Accept: "application/json",
+      "Accept": "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -71,18 +79,26 @@ export const createUser = async (username, password) => {
   apiRequest(apiPath, config, params);
 };
 
-function authUser() {
-  let username = inputLoginAuth.value;
-  let password = inputPasswordAuth.value;
+function authUser(username, password) {
+  deleteAllCookies();
   authLoginAndPassword(username, password)
-  .then(() => {
-    if(getCookie("token") && getCookie("token") !== "undefined") {
+  .then((data) => {
+    setCookie("chatname", data.msg.chatname, { secure: true });
+    setCookie("token", data.token, { secure: true });
+    if (data.token === getCookie("token")) {
+      inputLoginAuth.value = "";
+      inputPasswordAuth.value = "";
       authPage.classList.add("hide");
+      chatPage.classList.remove("hide");
     }
-  });
+  })
 }
 
-authButton.addEventListener("click", authUser);
+authButton.addEventListener("click", function() {
+  let username = inputLoginAuth.value;
+  let password = inputPasswordAuth.value;
+  authUser(username, password);
+});
 
 export const authLoginAndPassword = async (username, password) => {
   const apiPath = "/api/user/auth?";
@@ -93,17 +109,36 @@ export const authLoginAndPassword = async (username, password) => {
   const config = {
     method: "POST",
     headers: {
+      "Accept": "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
   };
-  apiRequest(apiPath, config).then((data) => {
-    setCookie("token", data.token, { secure: true });
-  });
+  return apiRequest(apiPath, config);
 };
 
-logOut.addEventListener("click", function () {
-  deleteCookie("token");
+export const changeUserName = (oldName, username) => {
+  const apiPath = "/api/user?";
+  let params = `username=${oldName}`;
+  const payload = {
+    username
+  };
+  const config = {
+    method: "PATH",
+    headers: {
+      "Origin": "https://usernamemvs.github.io/newChat/",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  };
+  
+  return apiRequest(apiPath, config, params);
+}
+
+changeUserName("testUser", "Vlad").then(data => console.log(data))
+
+logOutBtn.addEventListener("click", function () {
+  deleteAllCookies();
   authPage.classList.remove("hide");
 });
 
@@ -115,6 +150,14 @@ linkToAccount.addEventListener("click", function () {
 linkToAuth.addEventListener("click", function () {
   accountPage.classList.toggle("hide");
   authPage.classList.toggle("hide");
+});
+
+closeBtn.addEventListener("click", function() {
+  closeBtn.parentNode.parentNode.classList.add("hide");
+})
+
+linkToSetting.addEventListener("click", function () {
+  settingsPage.classList.remove("hide");
 });
 
 function checkValidLogin(loginUser) {
@@ -150,7 +193,7 @@ function setCookie(name, value, options = {}) {
   document.cookie = updatedCookie;
 }
 
-function getCookie(name) {
+export function getCookie(name) {
   let matches = document.cookie.match(
     new RegExp(
       "(?:^|; )" +
@@ -158,11 +201,22 @@ function getCookie(name) {
         "=([^;]*)"
     )
   );
-  return matches ? decodeURIComponent(matches[1]) : undefined;
+  return matches ? decodeURIComponent(matches[1]) : "undefined";
 }
 
 function deleteCookie(name) {
   setCookie(name, "", {
     "max-age": -1,
   });
+}
+
+function deleteAllCookies() {
+  var cookies = document.cookie.split(";");
+
+  for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i];
+    var eqPos = cookie.indexOf("=");
+    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  }
 }

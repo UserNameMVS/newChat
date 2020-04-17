@@ -500,15 +500,16 @@ body {
   padding: 5px 5px;
   border-radius: 7px;
   margin-bottom: 5px;
-  margin-right: 5px;
 }
 
 .template__chat-message--outgoing {
   justify-self: flex-end;
+  margin-right: 5px;
 }
 
 .template__chat-message--incoming {
   justify-self: flex-start;
+  margin-left: 5px;
 }
 
 .template__chat-message-name {
@@ -637,7 +638,7 @@ body {
   margin-bottom: 16px;
 }
 
-.popup__input--settings {
+.popup__input--setting {
   width: auto;
   display: inline-block;
 }

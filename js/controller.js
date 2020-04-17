@@ -5,6 +5,7 @@ import { inputMessage } from "./uiElements.js";
 import { Message } from "./chatView.js";
 
 socket.on("message", function(msg) {
+  console.log(msg)
   const newMessage = new Message(msg.user, msg.message);
   newMessage.addMessage();
 });
