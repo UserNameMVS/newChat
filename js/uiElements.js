@@ -19,7 +19,7 @@ export const inputPasswordAuth = authPage.querySelector('#auth-password');
 export const authButton = authPage.querySelector('#auth-btn');
 export const linkToAccount = authPage.querySelector('#link-to-account-page');
 export const settingsPage = document.getElementById('settings-page');
-export const settingInput = settingsPage.querySelector('#settingsPage');
+export const settingInput = settingsPage.querySelector('#setting-input');
 export const settingBtn = settingsPage.querySelector('#setting-btn');
 export const closeBtn = document.querySelector('.popup__btn-close');
 

@@ -117,16 +117,16 @@ export const authLoginAndPassword = async (username, password) => {
   return apiRequest(apiPath, config);
 };
 
-export const changeUserName = (oldName, username) => {
-  const apiPath = "/api/user?";
-  let params = `username=${oldName}`;
+export const changeUserName = (chatname) => {
+  const apiPath = "/api/user/";
+  let params = "";
   const payload = {
-    username
+    chatname
   };
   const config = {
-    method: "PATH",
+    method: "PATCH",
     headers: {
-      "Origin": "https://usernamemvs.github.io/newChat/",
+      "Authorization": `Bearer + ${getCookie("token")}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -135,7 +135,14 @@ export const changeUserName = (oldName, username) => {
   return apiRequest(apiPath, config, params);
 }
 
-changeUserName("testUser", "Vlad").then(data => console.log(data))
+
+settingBtn.addEventListener('click', function(){
+  changeUserName(settingInput.value)
+})
+
+console.log(settingInput)
+
+// changeUserName("Vlad").then(data => console.log(data))
 
 logOutBtn.addEventListener("click", function () {
   deleteAllCookies();
