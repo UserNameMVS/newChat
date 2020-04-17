@@ -100,7 +100,7 @@ authButton.addEventListener("click", function() {
   authUser(username, password);
 });
 
-export const authLoginAndPassword = async (username, password) => {
+export const authLoginAndPassword = (username, password) => {
   const apiPath = "/api/user/auth?";
   const payload = {
     username,
@@ -114,25 +114,25 @@ export const authLoginAndPassword = async (username, password) => {
     },
     body: JSON.stringify(payload),
   };
-  console.log(config)
   return apiRequest(apiPath, config);
 };
 
 export const changeUserName = (chatname) => {
-  const apiPath = "/api/user/";
-  let params = "";
+  const apiPath = "/api/user";
+  const params = "";
   const payload = {
     chatname
   };
   const config = {
     method: "PATCH",
     headers: {
-      "Authorization": `Bearer ${getCookie("token")}`,
+      "Authorization": `Bearer ${getCookie('token')}`,
       "Content-Type": "application/json",
     },
 
     body: JSON.stringify(payload),
   };
+
   return apiRequest(apiPath, config, params);
 }
 
