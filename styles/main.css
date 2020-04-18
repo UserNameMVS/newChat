@@ -485,7 +485,7 @@ body {
   margin-left: 8px;
 }
 
-.template__chat-message {
+.chat-message {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -502,17 +502,24 @@ body {
   margin-bottom: 5px;
 }
 
-.template__chat-message--outgoing {
+.chat-message--outgoing {
   justify-self: flex-end;
   margin-right: 5px;
 }
 
-.template__chat-message--incoming {
+.chat-message--incoming {
   justify-self: flex-start;
   margin-left: 5px;
 }
 
-.template__chat-message-name {
+.chat-message__status {
+  text-align: end;
+  font-size: 12px;
+  color: skyblue;
+  margin-bottom: 5px;
+}
+
+.chat-message__name {
   display: inline-block;
   font-family: "Roboto", sans-serif;
   font-weight: bold;
@@ -522,7 +529,7 @@ body {
   padding-right: 4px;
 }
 
-.template__chat-message-text {
+.chat-message__text {
   display: inline-block;
   max-width: 265px;
   margin: 0;
@@ -535,7 +542,7 @@ body {
   margin-bottom: 3px;
 }
 
-.template__chat-message-time {
+.chat-message__time {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -565,6 +572,12 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.account__popup,
+.authorization__popup,
+.settings__popup {
+  min-height: 319px;
 }
 
 .settings__popup {

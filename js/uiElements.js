@@ -1,11 +1,12 @@
 'use strict';
 export const chatPage = document.querySelector('#chat-page');
 export const messageList = document.getElementById('chat-content');
+export const chatMessage = messageList.querySelectorAll('.chat-message');
 export const inputUserName = document.getElementById('input-user-name');
 export const formInputSendMessage = document.getElementById('chat-form');
 export const inputMessage = formInputSendMessage.querySelector('.chat__form-input');
 export const templateMessageContent = document.getElementById('template__message').content;
-export const templateMessage = templateMessageContent.querySelector('.template__chat-message');
+export const templateMessage = templateMessageContent.querySelector('.chat-message');
 export const linkToSetting = document.getElementById('setting-link');
 export const logOutBtn = document.getElementById('log-out-btn');
 export const accountPage = document.getElementById('account-page');

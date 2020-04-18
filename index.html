@@ -13,16 +13,8 @@
   <body>
     <section class="chat hide" id="chat-page">
       <div class="chat__inner">
-        <!-- <input
-          class="chat__user-name"
-          id="input-user-name"
-          type="text"
-          aria-label="Ваше имя"
-          placeholder="Your chat name"
-          required
-        /> -->
-        <button class="chat__settings btn" id="setting-link">settings</button>
-        <button class="chat__log-out btn" id="log-out-btn">Log out</button>
+        <button class="chat__settings btn" id="setting-link">Настройки</button>
+        <button class="chat__log-out btn" id="log-out-btn">Выход</button>
       </div>
       <div class="chat__content" id="chat-content"></div>
       <form class="chat__form" id="chat-form" action="" method="post">
@@ -30,10 +22,10 @@
           class="chat__form-input"
           type="text"
           aria-label="Ваше сообщение"
-          placeholder="message..."
+          placeholder="Сообщение..."
           required
         />
-        <button class="chat__form-button btn" type="submit">Send</button>
+        <button class="chat__form-button btn" type="submit">Отправить</button>
       </form>
     </section>
     <section
@@ -61,7 +53,6 @@
         />
         <button class="popup__button" id="btn-create-account">Создать</button>
         <a class="popup__link" id="link-to-auth-page">У меня уже есть аккаунт (войти)</a>
-        <!-- <button class="popup__btn-close">Закрыть</button> -->
       </div>
     </section>
     <section
@@ -89,7 +80,6 @@
         />
         <button class="popup__button" id="auth-btn">Войти</button>
         <a class="popup__link" id="link-to-account-page">Регистрация</a>
-        <!-- <button class="popup__btn-close">Закрыть</button> -->
       </div>
     </section>
     <section
@@ -117,16 +107,17 @@
       </div>
     </section>
     <template id="template__message">
-      <div class="template__chat-message" tabindex="0">
-        <div class="template__chat-message-inner">
+      <div class="chat-message" tabindex="0">
+        <!-- <span class="chat-message__status">Отправлено</span> -->
+        <div class="chat-message__inner">
           <span
-            class="template__chat-message-name"
+            class="chat-message__name"
             id="message-user-name"
           ></span>
-          <p class="template__chat-message-text" id="message-text"></p>
+          <p class="chat-message__text" id="message-text"></p>
         </div>
         <time
-          class="template__chat-message-time"
+          class="chat-message__time"
           id="message-time"
           pubdate
         ></time>

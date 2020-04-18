@@ -34,16 +34,14 @@ export const apiRequest = async (apiPath, config, params) => {
   }
 };
 
-export const getUser = (username) => {
+export const getUser = async (username) => {
   const apiPath = "/api/user?";
   const config = {
     method: "GET",
   };
   let params = `username=${username}`;
-  return apiRequest(apiPath, config, params);
+  return await apiRequest(apiPath, config, params);
 };
-
-// getUser("testUser").then(data => console.log(data))
 
 function addUser(username, password) {
   checkValidLogin(username);
@@ -83,6 +81,7 @@ function authUser(username, password) {
   deleteAllCookies();
   authLoginAndPassword(username, password)
   .then((data) => {
+    setCookie("username", data.msg.username, { secure: true });
     setCookie("chatname", data.msg.chatname, { secure: true });
     setCookie("token", data.token, { secure: true });
     if (data.token === getCookie("token")) {
@@ -117,7 +116,7 @@ export const authLoginAndPassword = (username, password) => {
   return apiRequest(apiPath, config);
 };
 
-export const changeUserName = (chatname) => {
+export const changeChatName = (chatname) => {
   const apiPath = "/api/user";
   const params = "";
   const payload = {
@@ -132,14 +131,17 @@ export const changeUserName = (chatname) => {
 
     body: JSON.stringify(payload),
   };
-
-  return apiRequest(apiPath, config, params);
+  return apiRequest(apiPath, config, params)
 }
 
-
-settingBtn.addEventListener('click', function(){
-  changeUserName(settingInput.value)
-    .then((data) => console.log(data))
+settingBtn.addEventListener('click', function() {
+  changeChatName(settingInput.value)
+    .then(getUser(getCookie("username"))
+    .then(data => {
+      setCookie("chatname", data.user.chatname, { secure: true })
+      settingInput.value = ""
+      settingsPage.classList.add('hide')
+    }))
 })
 
 logOutBtn.addEventListener("click", function () {
@@ -147,15 +149,14 @@ logOutBtn.addEventListener("click", function () {
   authPage.classList.remove("hide");
 });
 
-linkToAccount.addEventListener("click", function () {
-  authPage.classList.toggle("hide");
-  accountPage.classList.toggle("hide");
-});
 
-linkToAuth.addEventListener("click", function () {
-  accountPage.classList.toggle("hide");
+function changePage() {
   authPage.classList.toggle("hide");
-});
+  accountPage.classList.toggle("hide");
+}
+
+linkToAccount.addEventListener("click", changePage);
+linkToAuth.addEventListener("click", changePage);
 
 closeBtn.addEventListener("click", function() {
   closeBtn.parentNode.parentNode.classList.add("hide");
@@ -165,23 +166,24 @@ linkToSetting.addEventListener("click", function () {
   settingsPage.classList.remove("hide");
 });
 
-function checkValidLogin(loginUser) {
+export function checkValidLogin(loginUser) {
   loginUser = loginUser.trim();
   if (loginUser.length >= 2) {
     return loginUser;
   }
 }
 
-function checkValidPassword(passwordUser) {
+export function checkValidPassword(passwordUser) {
   passwordUser = passwordUser.trim();
   if (passwordUser.length >= 4) {
     return passwordUser;
   }
 }
 
-function setCookie(name, value, options = {}) {
+export function setCookie(name, value, options = {}) {
   options = {
     path: "/",
+    SameSite: "None"
   };
   if (options.expires instanceof Date) {
     options.expires = options.expires.toUTCString();
@@ -209,13 +211,7 @@ export function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : "undefined";
 }
 
-function deleteCookie(name) {
-  setCookie(name, "", {
-    "max-age": -1,
-  });
-}
-
-function deleteAllCookies() {
+export function deleteAllCookies() {
   var cookies = document.cookie.split(";");
 
   for (var i = 0; i < cookies.length; i++) {

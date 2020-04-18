@@ -1,9 +1,8 @@
-'use strict';
+"use strict";
 
 import {
   messageList,
   formInputSendMessage,
-  inputUserName,
   inputMessage,
   templateMessage,
 } from "./uiElements.js";
@@ -14,28 +13,30 @@ export class Message {
     this.userName = userName;
     this.textMessage = textMessage;
     this.message = templateMessage.cloneNode(true);
-    this.message.querySelector('#message-user-name').textContent = this.userName;
-    this.message.querySelector('#message-text').textContent = this.textMessage;
-    this.message.querySelector('#message-time').textContent = currentTime();
-    if(userName === getCookie("chatname")) {
-      this.message.classList.add('template__chat-message--outgoing');
+    this.message.querySelector(
+      "#message-user-name"
+    ).textContent = this.userName;
+    this.message.querySelector("#message-text").textContent = this.textMessage;
+    this.message.querySelector("#message-time").textContent = currentTime();
+    if (userName === getCookie("chatname")) {
+      this.message.classList.add("chat-message--outgoing");
     } else {
-      this.message.classList.add('template__chat-message--incoming');
+      this.message.classList.add("chat-message--incoming");
     }
   }
-  addMessage() {
+  addMessageToChat() {
     messageList.appendChild(this.message);
   }
 }
 
 function isValidTextMessage(value) {
   value = value.trim();
-  if(value) {
-    return inputMessage.value = value;
+  if (value) {
+    return (inputMessage.value = value);
   }
 }
 
-function currentTime () {
+function currentTime() {
   let currentDate = new Date();
   let currentHour = addZeroFormatTime(currentDate.getHours());
   let currentMinutes = addZeroFormatTime(currentDate.getMinutes());
@@ -44,15 +45,32 @@ function currentTime () {
 }
 
 function addZeroFormatTime(value) {
-  if (value < 10) value = '0' + value;
+  if (value < 10) value = "0" + value;
   return value;
 }
 
-formInputSendMessage.addEventListener('submit', submitFormHadler);
+formInputSendMessage.addEventListener("submit", submitFormHadler);
 
-function submitFormHadler(e) {
+export function countMessage() {
+  let count = 1;
+  return function () {
+    return count++;
+  };
+}
+
+let countCreateMessage = countMessage();
+
+export function submitFormHadler(e) {
   e.preventDefault();
-  if(isValidTextMessage(inputMessage.value)) {
-    sendMessage(getCookie("chatname"), inputMessage.value)
+  if (isValidTextMessage(inputMessage.value)) {
+    let newMessage = createMessage(inputMessage.value);
+    newMessage.addMessageToChat();
+    newMessage.message.id = `messageId_${countCreateMessage()}`
+    sendMessage(getCookie("chatname"), inputMessage.value);
   }
+}
+
+function createMessage(textMessage) {
+  let newMessage = new Message(getCookie("chatname"), textMessage);
+  return newMessage;
 }

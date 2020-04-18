@@ -1,16 +1,19 @@
-'use strict';
+"use strict";
 
 import { socket } from "./client.js";
-import { inputMessage } from "./uiElements.js";
-import { Message } from "./chatView.js";
+import { inputMessage, messageList } from "./uiElements.js";
+import { countMessage } from "./chatView.js";
 
-socket.on("message", function(msg) {
-  console.log(msg)
-  const newMessage = new Message(msg.user, msg.message);
-  newMessage.addMessage();
+let countGetMessages = countMessage();
+socket.on("message", function (msg) {
+  let message = document.querySelector(`#messageId_${countGetMessages()}`);
+    let status = document.createElement("span");
+    status.className = "chat-message__status";
+    status.innerHTML = "Доставлено";
+    message.prepend(status);
 });
 
-export function sendMessage (userName, textMessage) {
-  socket.emit("message", {user: userName, message: textMessage});
+export function sendMessage(userName, textMessage) {
+  socket.emit("message", { user: userName, message: textMessage });
   inputMessage.clear();
 }
