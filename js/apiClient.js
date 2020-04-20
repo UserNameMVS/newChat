@@ -34,30 +34,30 @@ export const apiRequest = async (apiPath, config, params) => {
   }
 };
 
-(function isAuth () {
+(function isAuth() {
   const apiPath = "/api/user/auth?";
   const payload = {
-    username: `${getCookie('username')}`,
-    password: `${getCookie('password')}`
+    username: `${getCookie("username")}`,
+    password: `${getCookie("password")}`,
   };
   const config = {
     method: "POST",
     headers: {
-      "Accept": "application/json",
+      Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
   };
   apiRequest(apiPath, config).then((data) => {
     try {
-      if(data.token) {
+      if (data.token) {
         inputLoginAuth.value = "";
         inputPasswordAuth.value = "";
         authPage.classList.add("hide");
         chatPage.classList.remove("hide");
       }
-    } catch(err) {
-      console.log("Ошибка авторизации: ", err.message)
+    } catch (err) {
+      console.log("Ошибка авторизации: ", err.message);
     }
   });
 })();
@@ -84,7 +84,7 @@ function addUser(username, password) {
 btnCreateAccount.addEventListener("click", function () {
   let username = inputLoginAccount.value;
   let password = inputPasswordAccount.value;
-  addUser(username, password).then(() => authUser(username, password))
+  addUser(username, password).then(() => authUser(username, password));
 });
 
 export const createUser = (username, password) => {
@@ -97,7 +97,7 @@ export const createUser = (username, password) => {
   const config = {
     method: "POST",
     headers: {
-      "Accept": "application/json",
+      Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -107,8 +107,7 @@ export const createUser = (username, password) => {
 
 function authUser(username, password) {
   deleteAllCookies();
-  authLoginAndPassword(username, password)
-  .then((data) => {
+  authLoginAndPassword(username, password).then((data) => {
     setCookie("username", data.msg.username, { secure: true });
     setCookie("chatname", data.msg.chatname, { secure: true });
     setCookie("password", password, { secure: true });
@@ -119,10 +118,10 @@ function authUser(username, password) {
       authPage.classList.add("hide");
       chatPage.classList.remove("hide");
     }
-  })
+  });
 }
 
-authButton.addEventListener("click", function() {
+authButton.addEventListener("click", function () {
   let username = inputLoginAuth.value;
   let password = inputPasswordAuth.value;
   authUser(username, password);
@@ -137,7 +136,7 @@ export const authLoginAndPassword = (username, password) => {
   const config = {
     method: "POST",
     headers: {
-      "Accept": "application/json",
+      Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -149,38 +148,32 @@ export const changeChatName = async (chatname) => {
   const apiPath = "/api/user";
   const params = "";
   const payload = {
-    chatname
+    chatname,
   };
   const config = {
     method: "PATCH",
     headers: {
-      "Authorization": `Bearer ${getCookie('token')}`,
+      Authorization: `Bearer ${getCookie("token")}`,
       "Content-Type": "application/json",
     },
 
     body: JSON.stringify(payload),
   };
-  return await apiRequest(apiPath, config, params)
-}
+  return await apiRequest(apiPath, config, params);
+};
 
-settingBtn.addEventListener('click', function() {
-  changeChatName(settingInput.value)
-  .then((data) => console.log(data.user.chatname))
-  // .then(() => {
-  //   setCookie("chatname", settingInput.value, { secure: true })
-  //   authLoginAndPassword(getCookie("username"), getCookie("password"))
-  //   .then(() => {
-  //     settingInput.value = ""
-  //     settingsPage.classList.add('hide')
-  //   })
-  // })
-})
+settingBtn.addEventListener("click", function () {
+  changeChatName(settingInput.value).then((data) => {
+    setCookie("chatname", data.chatname, { secure: true });
+    settingInput.value = "";
+    settingsPage.classList.add("hide");
+  });
+});
 
 logOutBtn.addEventListener("click", function () {
   deleteAllCookies();
   authPage.classList.remove("hide");
 });
-
 
 function changePage() {
   authPage.classList.toggle("hide");
@@ -190,9 +183,9 @@ function changePage() {
 linkToAccount.addEventListener("click", changePage);
 linkToAuth.addEventListener("click", changePage);
 
-closeBtn.addEventListener("click", function() {
+closeBtn.addEventListener("click", function () {
   closeBtn.parentNode.parentNode.classList.add("hide");
-})
+});
 
 linkToSetting.addEventListener("click", function () {
   settingsPage.classList.remove("hide");
@@ -215,7 +208,7 @@ export function checkValidPassword(passwordUser) {
 export function setCookie(name, value, options = {}) {
   options = {
     path: "/",
-    SameSite: "None"
+    SameSite: "None",
   };
   if (options.expires instanceof Date) {
     options.expires = options.expires.toUTCString();
