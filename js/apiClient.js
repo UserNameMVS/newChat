@@ -165,14 +165,15 @@ export const changeChatName = async (chatname) => {
 
 settingBtn.addEventListener('click', function() {
   changeChatName(settingInput.value)
-  .then(() => {
-    setCookie("chatname", settingInput.value, { secure: true })
-    authLoginAndPassword(getCookie("username"), getCookie("password"))
-    .then(() => {
-      settingInput.value = ""
-      settingsPage.classList.add('hide')
-    })
-  })
+  .then((data) => console.log(data.user.chatname))
+  // .then(() => {
+  //   setCookie("chatname", settingInput.value, { secure: true })
+  //   authLoginAndPassword(getCookie("username"), getCookie("password"))
+  //   .then(() => {
+  //     settingInput.value = ""
+  //     settingsPage.classList.add('hide')
+  //   })
+  // })
 })
 
 logOutBtn.addEventListener("click", function () {
