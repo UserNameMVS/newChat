@@ -80,11 +80,6 @@ function submitAccountForm(e) {
   let username = inputLoginAccount.value;
   let password = inputPasswordAccount.value;
   addUser(username, password).then(() => authUser(username, password));
-  inputLoginAccount.value = "";
-  inputPasswordAccount.value = "";
-  accountPage.classList.add("hide");
-  chatPage.classList.remove("hide");
-  inputMessage.focus();
 }
 
 async function addUser(username, password) {
@@ -123,11 +118,6 @@ function submitAuthForm(e) {
   let username = inputLoginAuth.value;
   let password = inputPasswordAuth.value;
   authUser(username, password);
-  inputLoginAuth.value = "";
-  inputPasswordAuth.value = "";
-  authPage.classList.add("hide");
-  chatPage.classList.remove("hide");
-  inputMessage.focus();
 }
 
 function authUser(username, password) {
@@ -136,7 +126,15 @@ function authUser(username, password) {
     setCookie("username", data.msg.username, { secure: true });
     setCookie("chatname", data.msg.chatname, { secure: true });
     setCookie("password", password, { secure: true });
-    setCookie("token", data.token, { secure: true, 'max-age': 10 });
+    setCookie("token", data.token, { secure: true });
+    if(data.token) {
+      inputLoginAuth.value = inputPasswordAuth.value = "";
+      inputLoginAccount.value = inputLoginAccount.value = "";
+      authPage.classList.add("hide");
+      accountPage.classList.add("hide");
+      chatPage.classList.remove("hide");
+      inputMessage.focus();
+    }
   });
 }
 
@@ -245,9 +243,7 @@ export function setCookie(name, value, options = {}) {
 export function getCookie(name) {
   let matches = document.cookie.match(
     new RegExp(
-      "(?:^|; )" +
-        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
-        "=([^;]*)"
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"
     )
   );
   return matches ? decodeURIComponent(matches[1]) : "";

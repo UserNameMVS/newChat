@@ -629,7 +629,12 @@ body {
   margin-bottom: 40px;
 }
 
+.popup__form {
+  width: 100%;
+}
+
 .popup__label {
+  display: block;
   margin-bottom: 8px;
   cursor: pointer;
 }
