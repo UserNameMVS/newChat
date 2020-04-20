@@ -145,7 +145,7 @@ export const authLoginAndPassword = (username, password) => {
   return apiRequest(apiPath, config);
 };
 
-export const changeChatName = (chatname) => {
+export const changeChatName = async (chatname) => {
   const apiPath = "/api/user";
   const params = "";
   const payload = {
@@ -160,17 +160,19 @@ export const changeChatName = (chatname) => {
 
     body: JSON.stringify(payload),
   };
-  return apiRequest(apiPath, config, params)
+  return await apiRequest(apiPath, config, params)
 }
 
 settingBtn.addEventListener('click', function() {
   changeChatName(settingInput.value)
-    .then(getUser(getCookie("username"))
-    .then(data => {
-      setCookie("chatname", data.user.chatname, { secure: true })
+  .then(() => {
+    setCookie("chatname", settingInput.value, { secure: true })
+    authLoginAndPassword(getCookie("username"), getCookie("password"))
+    .then(() => {
       settingInput.value = ""
       settingsPage.classList.add('hide')
-    }))
+    })
+  })
 })
 
 logOutBtn.addEventListener("click", function () {
