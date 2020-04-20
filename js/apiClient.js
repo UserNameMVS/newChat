@@ -7,18 +7,19 @@ import {
   inputPasswordAccount,
   logOutBtn,
   authPage,
+  authForm,
   linkToAccount,
   accountPage,
+  accountForm,
   linkToAuth,
-  btnCreateAccount,
   inputLoginAuth,
   inputPasswordAuth,
-  authButton,
   linkToSetting,
   settingsPage,
+  settingForm,
   settingInput,
-  settingBtn,
   closeBtn,
+  inputMessage,
 } from "./uiElements.js";
 
 export const apiRequest = async (apiPath, config, params) => {
@@ -55,6 +56,7 @@ export const apiRequest = async (apiPath, config, params) => {
         inputPasswordAuth.value = "";
         authPage.classList.add("hide");
         chatPage.classList.remove("hide");
+        inputMessage.focus();
       }
     } catch (err) {
       console.log("Ошибка авторизации: ", err.message);
@@ -71,23 +73,32 @@ export const getUser = async (username) => {
   return await apiRequest(apiPath, config, params);
 };
 
-function addUser(username, password) {
+accountForm.addEventListener("submit", submitAccountForm);
+
+function submitAccountForm(e) {
+  e.preventDefault();
+  let username = inputLoginAccount.value;
+  let password = inputPasswordAccount.value;
+  addUser(username, password).then(() => authUser(username, password));
+  inputLoginAccount.value = "";
+  inputPasswordAccount.value = "";
+  accountPage.classList.add("hide");
+  chatPage.classList.remove("hide");
+  inputMessage.focus();
+}
+
+async function addUser(username, password) {
   checkValidLogin(username);
   checkValidPassword(password);
   if (checkValidLogin && checkValidPassword) {
     username = checkValidLogin(username);
     password = checkValidPassword(password);
-    createUser(username, password);
+    await createUser(username, password);
+    return await getUser(username);
   }
 }
 
-btnCreateAccount.addEventListener("click", function () {
-  let username = inputLoginAccount.value;
-  let password = inputPasswordAccount.value;
-  addUser(username, password).then(() => authUser(username, password));
-});
-
-export const createUser = (username, password) => {
+async function createUser(username, password) {
   let params = `username=${username}`;
   const apiPath = "/api/user?";
   const payload = {
@@ -102,8 +113,22 @@ export const createUser = (username, password) => {
     },
     body: JSON.stringify(payload),
   };
-  apiRequest(apiPath, config, params);
-};
+  return await apiRequest(apiPath, config, params);
+}
+
+authForm.addEventListener("submit", submitAuthForm);
+
+function submitAuthForm(e) {
+  e.preventDefault();
+  let username = inputLoginAuth.value;
+  let password = inputPasswordAuth.value;
+  authUser(username, password);
+  inputLoginAuth.value = "";
+  inputPasswordAuth.value = "";
+  authPage.classList.add("hide");
+  chatPage.classList.remove("hide");
+  inputMessage.focus();
+}
 
 function authUser(username, password) {
   deleteAllCookies();
@@ -111,23 +136,11 @@ function authUser(username, password) {
     setCookie("username", data.msg.username, { secure: true });
     setCookie("chatname", data.msg.chatname, { secure: true });
     setCookie("password", password, { secure: true });
-    setCookie("token", data.token, { secure: true });
-    if (data.token === getCookie("token")) {
-      inputLoginAuth.value = "";
-      inputPasswordAuth.value = "";
-      authPage.classList.add("hide");
-      chatPage.classList.remove("hide");
-    }
+    setCookie("token", data.token, { secure: true, 'max-age': 10 });
   });
 }
 
-authButton.addEventListener("click", function () {
-  let username = inputLoginAuth.value;
-  let password = inputPasswordAuth.value;
-  authUser(username, password);
-});
-
-export const authLoginAndPassword = (username, password) => {
+async function authLoginAndPassword(username, password) {
   const apiPath = "/api/user/auth?";
   const payload = {
     username,
@@ -141,10 +154,21 @@ export const authLoginAndPassword = (username, password) => {
     },
     body: JSON.stringify(payload),
   };
-  return apiRequest(apiPath, config);
-};
+  return await apiRequest(apiPath, config);
+}
 
-export const changeChatName = async (chatname) => {
+settingForm.addEventListener("submit", submitSettingForm);
+
+function submitSettingForm(e) {
+  e.preventDefault();
+  changeChatName(settingInput.value).then((data) => {
+    setCookie("chatname", data.chatname, { secure: true });
+    settingInput.value = "";
+    settingsPage.classList.add("hide");
+  });
+}
+
+async function changeChatName(chatname) {
   const apiPath = "/api/user";
   const params = "";
   const payload = {
@@ -160,15 +184,7 @@ export const changeChatName = async (chatname) => {
     body: JSON.stringify(payload),
   };
   return await apiRequest(apiPath, config, params);
-};
-
-settingBtn.addEventListener("click", function () {
-  changeChatName(settingInput.value).then((data) => {
-    setCookie("chatname", data.chatname, { secure: true });
-    settingInput.value = "";
-    settingsPage.classList.add("hide");
-  });
-});
+}
 
 logOutBtn.addEventListener("click", function () {
   deleteAllCookies();
@@ -209,6 +225,7 @@ export function setCookie(name, value, options = {}) {
   options = {
     path: "/",
     SameSite: "None",
+    'max-age': 9600
   };
   if (options.expires instanceof Date) {
     options.expires = options.expires.toUTCString();
@@ -233,7 +250,7 @@ export function getCookie(name) {
         "=([^;]*)"
     )
   );
-  return matches ? decodeURIComponent(matches[1]) : "undefined";
+  return matches ? decodeURIComponent(matches[1]) : "";
 }
 
 export function deleteAllCookies() {

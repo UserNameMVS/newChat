@@ -1,7 +1,7 @@
 "use strict";
 
 import { socket } from "./client.js";
-import { inputMessage, messageList } from "./uiElements.js";
+import { inputMessage } from "./uiElements.js";
 import { countMessage } from "./chatView.js";
 
 let countGetMessages = countMessage();

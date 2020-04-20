@@ -5,6 +5,8 @@ import {
   formInputSendMessage,
   inputMessage,
   templateMessage,
+  chatPage,
+  authPage,
 } from "./uiElements.js";
 import { sendMessage } from "./controller.js";
 import { getCookie } from "./apiClient.js";
@@ -62,6 +64,10 @@ let countCreateMessage = countMessage();
 
 export function submitFormHadler(e) {
   e.preventDefault();
+  if(!getCookie("token")) {
+    chatPage.classList.add('hide');
+    authPage.classList.remove('hide');
+  }
   if (isValidTextMessage(inputMessage.value)) {
     let newMessage = createMessage(inputMessage.value);
     newMessage.addMessageToChat();

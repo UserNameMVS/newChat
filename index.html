@@ -17,7 +17,7 @@
         <button class="chat__log-out btn" id="log-out-btn">Выход</button>
       </div>
       <div class="chat__content" id="chat-content"></div>
-      <form class="chat__form" id="chat-form" action="" method="post">
+      <form class="chat__form" id="chat-form" method="post">
         <input
           class="chat__form-input"
           type="text"
@@ -39,19 +39,21 @@
         <p class="popup__title" aria-labelledby="modalTitle">
           Создать аккаунт
         </p>
-        <label class="popup__label" for="account-login">Имя (логин)</label>
-        <input
-          class="popup__input popup__input--login"
-          id="account-login"
-          type="text"
-        />
-        <label class="popup__label" for="account-password">Пароль</label>
-        <input
-          class="popup__input popup__input--password"
-          id="account-password"
-          type="password"
-        />
-        <button class="popup__button" id="btn-create-account">Создать</button>
+        <form class="account__form" id="account-form" method="post">
+          <label class="popup__label" for="account-login">Имя (логин)</label>
+          <input
+            class="popup__input popup__input--login"
+            id="account-login"
+            type="text"
+          />
+          <label class="popup__label" for="account-password">Пароль</label>
+          <input
+            class="popup__input popup__input--password"
+            id="account-password"
+            type="password"
+          />
+          <button  type="submit" class="popup__button">Создать</button>
+        </form>
         <a class="popup__link" id="link-to-auth-page">У меня уже есть аккаунт (войти)</a>
       </div>
     </section>
@@ -64,21 +66,23 @@
     >
       <div class="authorization__popup popup">
         <p class="popup__title" aria-labelledby="modalTitle">Авторизация</p>
-        <label class="popup__label" for="authorization-login">
-          Имя (логин)</label
-        >
-        <input
-          class="popup__input popup__input--login"
-          id="auth-login"
-          type="text"
-        />
-        <label class="popup__label" for="authorization-password">Пароль</label>
-        <input
-          class="popup__input popup__input--password"
-          id="auth-password"
-          type="password"
-        />
-        <button class="popup__button" id="auth-btn">Войти</button>
+        <form method="post" id="auth-form">
+          <label class="popup__label" for="authorization-login">
+            Имя (логин)</label
+          >
+          <input
+            class="popup__input popup__input--login"
+            id="auth-login"
+            type="text"
+          />
+          <label class="popup__label" for="authorization-password">Пароль</label>
+          <input
+            class="popup__input popup__input--password"
+            id="auth-password"
+            type="password"
+          />
+          <button type="submit" class="popup__button">Войти</button>
+        </form>
         <a class="popup__link" id="link-to-account-page">Регистрация</a>
       </div>
     </section>
@@ -91,18 +95,20 @@
     >
       <div class="settings__popup popup">
         <p class="popup__title" aria-labelledby="modalTitle">Настройки</p>
-        <label class="popup__label" for="setting-login">
-          Имя в чате</label
-        >
-        <div class="popup__inner">
-          <input
-          class="popup__input popup__input--setting"
-          id="setting-input"
-          type="text"
-          placeholder="Стив"
-        />
-        <button class="popup__button" id="setting-btn">-></button>
-        </div>
+        <form class="popup__form" id="setting-form" method="post">
+          <label class="popup__label" for="setting-login">
+            Имя в чате</label
+          >
+          <div class="popup__inner">
+            <input
+            class="popup__input popup__input--setting"
+            id="setting-input"
+            type="text"
+            placeholder="Стив"
+          />
+          <button type="submit" class="popup__button" id="setting-btn">-></button>
+          </div>
+        </form>
         <button class="popup__btn-close">Закрыть</button>
       </div>
     </section>
