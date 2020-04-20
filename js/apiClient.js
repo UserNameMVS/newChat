@@ -24,15 +24,43 @@ import {
 export const apiRequest = async (apiPath, config, params) => {
   try {
     let res = await fetch(serverURL + apiPath + params, config);
-    let data = await res.json();
-    if (res.status == 400) {
+    if (res.status !== 200) {
       throw new SyntaxError(data.error);
     }
+    let data = await res.json();
     return data;
   } catch (err) {
     console.log("Ошибка: ", err.message);
   }
 };
+
+(function isAuth () {
+  const apiPath = "/api/user/auth?";
+  const payload = {
+    username: `${getCookie('username')}`,
+    password: `${getCookie('password')}`
+  };
+  const config = {
+    method: "POST",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  };
+  apiRequest(apiPath, config).then((data) => {
+    try {
+      if(data.token) {
+        inputLoginAuth.value = "";
+        inputPasswordAuth.value = "";
+        authPage.classList.add("hide");
+        chatPage.classList.remove("hide");
+      }
+    } catch(err) {
+      console.log("Ошибка авторизации: ", err.message)
+    }
+  });
+})();
 
 export const getUser = async (username) => {
   const apiPath = "/api/user?";
@@ -83,6 +111,7 @@ function authUser(username, password) {
   .then((data) => {
     setCookie("username", data.msg.username, { secure: true });
     setCookie("chatname", data.msg.chatname, { secure: true });
+    setCookie("password", password, { secure: true });
     setCookie("token", data.token, { secure: true });
     if (data.token === getCookie("token")) {
       inputLoginAuth.value = "";
