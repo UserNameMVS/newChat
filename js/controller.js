@@ -5,12 +5,13 @@ import { inputMessage } from "./uiElements.js";
 import { countMessage } from "./chatView.js";
 
 let countGetMessages = countMessage();
+
 socket.on("message", function (msg) {
   let message = document.querySelector(`#messageId_${countGetMessages()}`);
-    let status = document.createElement("span");
-    status.className = "chat-message__status";
-    status.innerHTML = "Доставлено";
-    message.prepend(status);
+  let status = document.createElement("span");
+  status.className = "chat-message__status";
+  status.innerHTML = "Доставлено";
+  message.prepend(status);
 });
 
 export function sendMessage(userName, textMessage) {
