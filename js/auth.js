@@ -16,8 +16,8 @@ function submitAuthForm(e) {
 export function authUser(username, password) {
   deleteAllCookies();
   authLoginAndPassword(username, password).then((data) => {
-    setCookie("username", data.msg.username, { secure: true });
-    setCookie("chatname", data.msg.chatname, { secure: true });
+    setCookie("username", data.username, { secure: true });
+    setCookie("chatname", data.chatname, { secure: true });
     setCookie("password", password, { secure: true });
     setCookie("token", data.token, { secure: true });
     if(data.token) {
