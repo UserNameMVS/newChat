@@ -1,27 +1,38 @@
 "use strict";
 
 import {
+  messageList,
   formInputSendMessage,
   inputMessage,
   chatPage,
   authPage,
   logOutBtn,
   settingsPage,
-  linkToSetting
+  linkToSetting,
 } from "./uiElements.js";
 import { Message } from "./Message.js";
 import { sendMessage } from "./controller.js";
 import { setCookie, getCookie, deleteAllCookies } from "./cookie.js";
 import { isValidTextMessage } from "./validations.js";
-import { currentTimeMessage } from "./currentTime.js" ;
+import { currentTimeMessage } from "./currentTime.js";
+import { getDataMessages } from "./apiClient.js";
+
+getDataMessages().then((data) => {
+  let dataMessages = data.messages;
+  for (let i = 0; i < dataMessages.length; i++) {
+    let message = createMessage(dataMessages[i].chatname, dataMessages[i].message);
+    message.addMessageToChat();
+  }
+  messageList.scrollTop = Infinity;
+});
 
 formInputSendMessage.addEventListener("submit", submitFormHadler);
 
 export function submitFormHadler(e) {
   e.preventDefault();
-  if(!getCookie("token")) {
-    chatPage.classList.add('hide');
-    authPage.classList.remove('hide');
+  if (!getCookie("token")) {
+    chatPage.classList.add("hide");
+    authPage.classList.remove("hide");
   }
   if (isValidTextMessage(inputMessage.value)) {
     let newMessage = createMessage(getCookie("chatname"), inputMessage.value);

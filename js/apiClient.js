@@ -22,3 +22,19 @@ export const getUser = async (username) => {
   let params = `username=${username}`;
   return await apiRequest(apiPath, config, params);
 };
+
+export const getDataMessages = async () => {
+  const apiPath = "/api/messages?";
+  const config = {
+    method: "GET",
+  };
+  return await apiRequest(apiPath, config);
+};
+
+// getDataMessages().then(data => {
+//   let dataMessages = data.messages;
+//   for(let i = 0; i < dataMessages.length; i++) {
+//     console.log(dataMessages[i])
+//   }
+//   console.log(data.messages.slice(0,10))
+// })
