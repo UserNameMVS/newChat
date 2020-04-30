@@ -2,19 +2,23 @@
 
 import { socket } from "./client.js";
 import { inputMessage } from "./uiElements.js";
-import { countMessage } from "./chatView.js";
-
-let countGetMessages = countMessage();
+import { createMessage } from "./chatView.js"
+import { getCookie } from "./cookie.js";
 
 socket.on("message", function (msg) {
-  let message = document.querySelector(`#messageId_${countGetMessages()}`);
-  let status = document.createElement("span");
-  status.className = "chat-message__status";
-  status.innerHTML = "Доставлено";
-  message.prepend(status);
+  if(msg.chatname === getCookie('chatname')) {
+    let message = document.querySelector(`#${msg.messageId}`);
+    let status = document.createElement("span");
+    status.className = "chat-message__status";
+    status.innerHTML = "Доставлено";
+    message.prepend(status);
+  } else {
+    const message = createMessage(msg.chatname, msg.message);
+    message.addMessageToChat();
+  }
 });
 
-export function sendMessage(userName, textMessage) {
-  socket.emit("message", { user: userName, message: textMessage });
+export function sendMessage(userName, textMessage, id) {
+  socket.emit("message", { user: userName, message: textMessage, messageId: id});
   inputMessage.clear();
 }

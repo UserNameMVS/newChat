@@ -11,19 +11,11 @@ import {
 } from "./uiElements.js";
 import { Message } from "./Message.js";
 import { sendMessage } from "./controller.js";
-import { getCookie, deleteAllCookies } from "./cookie.js";
+import { setCookie, getCookie, deleteAllCookies } from "./cookie.js";
 import { isValidTextMessage } from "./validations.js";
+import { currentTimeMessage } from "./currentTime.js" ;
 
 formInputSendMessage.addEventListener("submit", submitFormHadler);
-
-export function countMessage() {
-  let count = 1;
-  return function () {
-    return count++;
-  };
-}
-
-let countCreateMessage = countMessage();
 
 export function submitFormHadler(e) {
   e.preventDefault();
@@ -32,15 +24,22 @@ export function submitFormHadler(e) {
     authPage.classList.remove('hide');
   }
   if (isValidTextMessage(inputMessage.value)) {
-    let newMessage = createMessage(inputMessage.value);
+    let newMessage = createMessage(getCookie("chatname"), inputMessage.value);
+    const messageId = addIdMessage(getCookie("chatname"));
+    newMessage.message.id = messageId;
     newMessage.addMessageToChat();
-    newMessage.message.id = `messageId_${countCreateMessage()}`
-    sendMessage(getCookie("chatname"), inputMessage.value);
+    sendMessage(getCookie("chatname"), inputMessage.value, messageId);
   }
 }
 
-function createMessage(textMessage) {
-  let newMessage = new Message(getCookie("chatname"), textMessage);
+function addIdMessage(userName) {
+  const id = userName + currentTimeMessage();
+  setCookie("id", id);
+  return id;
+}
+
+export function createMessage(userName, textMessage) {
+  let newMessage = new Message(userName, textMessage);
   return newMessage;
 }
 
