@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import {
   messageList,
@@ -17,20 +17,23 @@ import { isValidTextMessage } from "./validations.js";
 import { currentTimeMessage } from "./currentTime.js";
 import { getDataMessages } from "./apiClient.js";
 
-getDataMessages().then((data) => {
-  let dataMessages = data.messages;
-  for (let i = 0; i < dataMessages.length; i++) {
-    let message = createMessage(dataMessages[i].chatname, dataMessages[i].message);
-    message.addMessageToChat();
-  }
-  messageList.scrollTop = Infinity;
-});
+// getDataMessages().then((data) => {
+  // let dataMessages = data.messages;
+  // const { messages } = data;
+  
+  // console.log(messages);
+  // for (let i = 0; i < dataMessages.length; i++) {
+  //   let message = createMessage(dataMessages[i].chatname, dataMessages[i].message);
+  //   message.addMessageToChat();
+  // }
+  // messageList.scrollTop = Infinity;
+// });
 
 formInputSendMessage.addEventListener("submit", submitFormHadler);
 
 export function submitFormHadler(e) {
   e.preventDefault();
-  if (!getCookie("token")) {
+  if (!getCookie("at")) {
     chatPage.classList.add("hide");
     authPage.classList.remove("hide");
   }
@@ -39,7 +42,7 @@ export function submitFormHadler(e) {
     const messageId = addIdMessage(getCookie("chatname"));
     newMessage.message.id = messageId;
     newMessage.addMessageToChat();
-    sendMessage(getCookie("chatname"), inputMessage.value, messageId);
+    sendMessage(inputMessage.value, messageId);
   }
 }
 

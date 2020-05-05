@@ -45,16 +45,20 @@
             class="popup__input popup__input--login"
             id="account-login"
             type="text"
+            autocomplete="username"
           />
           <label class="popup__label" for="account-password">Пароль</label>
           <input
             class="popup__input popup__input--password"
             id="account-password"
             type="password"
+            autocomplete="current-password"
           />
-          <button  type="submit" class="popup__button">Создать</button>
+          <button type="submit" class="popup__button">Создать</button>
         </form>
-        <a class="popup__link" id="link-to-auth-page">У меня уже есть аккаунт (войти)</a>
+        <a class="popup__link" id="link-to-auth-page"
+          >У меня уже есть аккаунт (войти)</a
+        >
       </div>
     </section>
     <section
@@ -67,19 +71,19 @@
       <div class="authorization__popup popup">
         <p class="popup__title" aria-labelledby="modalTitle">Авторизация</p>
         <form method="post" id="auth-form">
-          <label class="popup__label" for="auth-login">
-            Имя (логин)</label
-          >
+          <label class="popup__label" for="auth-login"> Имя (логин)</label>
           <input
             class="popup__input popup__input--login"
             id="auth-login"
             type="text"
+            autocomplete="username"
           />
           <label class="popup__label" for="auth-password">Пароль</label>
           <input
             class="popup__input popup__input--password"
             id="auth-password"
             type="password"
+            autocomplete="current-password"
           />
           <button type="submit" class="popup__button">Войти</button>
         </form>
@@ -96,17 +100,17 @@
       <div class="settings__popup popup">
         <p class="popup__title" aria-labelledby="modalTitle">Настройки</p>
         <form class="popup__form" id="setting-form" method="post">
-          <label class="popup__label" for="setting-login">
-            Имя в чате</label
-          >
+          <label class="popup__label" for="setting-login"> Имя в чате</label>
           <div class="popup__inner">
             <input
-            class="popup__input popup__input--setting"
-            id="setting-input"
-            type="text"
-            placeholder="Стив"
-          />
-          <button type="submit" class="popup__button" id="setting-btn">-></button>
+              class="popup__input popup__input--setting"
+              id="setting-input"
+              type="text"
+              placeholder="Стив"
+            />
+            <button type="submit" class="popup__button" id="setting-btn">
+              ->
+            </button>
           </div>
         </form>
         <button class="popup__btn-close">Закрыть</button>
@@ -115,17 +119,10 @@
     <template id="template__message">
       <div class="chat-message" tabindex="0">
         <div class="chat-message__inner">
-          <span
-            class="chat-message__name"
-            id="message-user-name"
-          ></span>
+          <span class="chat-message__name" id="message-user-name"></span>
           <p class="chat-message__text" id="message-text"></p>
         </div>
-        <time
-          class="chat-message__time"
-          id="message-time"
-          pubdate
-        ></time>
+        <time class="chat-message__time" id="message-time" pubdate></time>
       </div>
     </template>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>

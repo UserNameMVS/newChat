@@ -3,6 +3,9 @@
 import { serverURL } from "./config.js";
 
 export const apiRequest = async (apiPath, config, params) => {
+  if(params === undefined) {
+    params = "";
+  }
   try {
     let res = await fetch(serverURL + apiPath + params, config);
     if (res.status !== 200) {
@@ -24,7 +27,7 @@ export const getUser = async (username) => {
 };
 
 export const getDataMessages = async () => {
-  const apiPath = "/api/messages?";
+  const apiPath = "/api/messages";
   const config = {
     method: "GET",
   };
@@ -32,6 +35,7 @@ export const getDataMessages = async () => {
 };
 
 // getDataMessages().then(data => {
+  // console.log(data)
 //   let dataMessages = data.messages;
 //   for(let i = 0; i < dataMessages.length; i++) {
 //     console.log(dataMessages[i])

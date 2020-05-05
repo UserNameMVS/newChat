@@ -13,6 +13,7 @@ node_modules/
 reports/
 main.css.map
 main.scss
+.jshintrc
 
 # Папка с собранными файлами проекта
 # build/

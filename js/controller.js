@@ -18,7 +18,7 @@ socket.on("message", function (msg) {
   }
 });
 
-export function sendMessage(userName, textMessage, id) {
-  socket.emit("message", { user: userName, message: textMessage, messageId: id});
+export function sendMessage(textMessage, id) {
+  socket.emit("message", { message: textMessage, messageId: id});
   inputMessage.clear();
 }
