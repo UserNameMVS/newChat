@@ -18,23 +18,23 @@ import { isValidTextMessage } from './validations.js';
 import { currentTime, currentTimeMessage } from './currentTime.js';
 import { getDataMessages } from './apiClient.js';
 
-export function addDataMessagesToChat() {
+export function addDataMessagesToChat(count) {
   getDataMessages().then(data => {
     const { messages } = data;
-    for(let i = 0; i < messages.length; i++) {
-      let newMessage = new Message(messages[i].chatname, messages[i].message);
-      if(messages[i].username === getCookie('username')) {
-        newMessage.message.classList.add('chat-message--outgoing')
-        let status = document.createElement('span');
-        status.className = 'chat-message__status';
-        status.innerHTML = 'Доставлено';
-        newMessage.message.prepend(status);
-      } else {
-        newMessage.message.classList.add('chat-message--incoming')
-      }
-      newMessage.message.querySelector('#message-time').textContent = (messages[i].createdAt.slice(11, 16));
-      messageList.append(newMessage.message);
-      
+    console.log(messages)
+    for(let i = messages.length - 1; i >= 0; i--) {
+        let newMessage = new Message(messages[i].chatname, messages[i].message);
+        if(messages[i].username === getCookie('username')) {
+          newMessage.message.classList.add('chat-message--outgoing')
+          let status = document.createElement('span');
+          status.className = 'chat-message__status';
+          status.innerHTML = 'Доставлено';
+          newMessage.message.prepend(status);
+        } else {
+          newMessage.message.classList.add('chat-message--incoming')
+        }
+        newMessage.message.querySelector('#message-time').textContent = (messages[i].createdAt.slice(11, 16));
+        messageList.append(newMessage.message);
     }
     chatContent.append(messageList);
     chatContent.scrollTop = chatContent.scrollHeight;

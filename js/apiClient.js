@@ -27,8 +27,8 @@ export const getUser = async (username) => {
   return await apiRequest(apiPath, config, params);
 };
 
-export const getDataMessages = async () => {
-  const apiPath = '/api/messages';
+export const getDataMessages = async (uplouded = 0) => {
+  const apiPath = `/api/messages?offset=${uplouded}`;
   const config = {
     method: 'GET',
     headers: {
