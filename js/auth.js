@@ -1,6 +1,6 @@
 "use strict";
 
-import { apiRequest, getDataMessages } from "./apiClient.js";
+import { apiRequest } from "./apiClient.js";
 import { setCookie, getCookie } from "./cookie.js";
 import {
   authPage,
@@ -12,15 +12,16 @@ import {
   accountPage,
   linkToAccount,
 } from "./uiElements.js";
+import { addDataMessagesToChat } from "./chatView.js";
 
 (function isAuth() {
   if (getCookie("at")) {
-    authLoginAndPassword(getCookie("username"), getCookie("password")).then(
-      () => {
-        showChat();
-        getDataMessages().then(data => console.log(data))
-      }
-    );
+    authLoginAndPassword(getCookie("username"), getCookie("password"))
+      .then(() => {
+          addDataMessagesToChat();
+          showChat();
+        }
+      );
   }
 })();
 

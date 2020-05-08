@@ -1,9 +1,10 @@
 "use strict";
 
 import { serverURL } from "./config.js";
+import { getCookie } from "./cookie.js";
 
 export const apiRequest = async (apiPath, config, params) => {
-  if(params === undefined) {
+  if (params === undefined) {
     params = "";
   }
   try {
@@ -30,12 +31,16 @@ export const getDataMessages = async () => {
   const apiPath = "/api/messages";
   const config = {
     method: "GET",
+    headers: {
+      Authorization: `Bearer ${getCookie("at")}`,
+      "Content-Type": "application/json",
+    },
   };
   return await apiRequest(apiPath, config);
 };
 
 // getDataMessages().then(data => {
-  // console.log(data)
+// console.log(data)
 //   let dataMessages = data.messages;
 //   for(let i = 0; i < dataMessages.length; i++) {
 //     console.log(dataMessages[i])
