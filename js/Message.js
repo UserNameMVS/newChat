@@ -1,6 +1,6 @@
 'use strict';
 
-import { templateMessage, messageList } from "./uiElements.js";
+import { templateMessage, messageList } from './uiElements.js';
 
 export class Message {
   constructor(userName, textMessage) {
@@ -8,9 +8,9 @@ export class Message {
     this.textMessage = textMessage;
     this.message = templateMessage.cloneNode(true);
     this.message.querySelector(
-      "#message-user-name"
+      '#message-user-name'
     ).textContent = this.userName;
-    this.message.querySelector("#message-text").textContent = this.textMessage;
+    this.message.querySelector('#message-text').textContent = this.textMessage;
   }
 
   addMessageToChat() {

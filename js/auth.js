@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-import { apiRequest } from "./apiClient.js";
-import { setCookie, getCookie } from "./cookie.js";
+import { apiRequest } from './apiClient.js';
+import { setCookie, getCookie } from './cookie.js';
 import {
   authPage,
   inputLoginAuth,
@@ -11,12 +11,12 @@ import {
   authForm,
   accountPage,
   linkToAccount,
-} from "./uiElements.js";
-import { addDataMessagesToChat } from "./chatView.js";
+} from './uiElements.js';
+import { addDataMessagesToChat } from './chatView.js';
 
 (function isAuth() {
-  if (getCookie("at")) {
-    authLoginAndPassword(getCookie("username"), getCookie("password"))
+  if (getCookie('at')) {
+    authLoginAndPassword(getCookie('username'), getCookie('password'))
       .then(() => {
           addDataMessagesToChat();
           showChat();
@@ -25,7 +25,7 @@ import { addDataMessagesToChat } from "./chatView.js";
   }
 })();
 
-authForm.addEventListener("submit", submitAuthForm);
+authForm.addEventListener('submit', submitAuthForm);
 
 function submitAuthForm(e) {
   e.preventDefault();
@@ -35,12 +35,12 @@ function submitAuthForm(e) {
 export function authUser(username, password) {
   authLoginAndPassword(username, password).then((data) => {
     if (data.token) {
-      setCookie("at", data.token, { secure: true });
-      setCookie("username", data.username, { secure: true });
-      setCookie("chatname", data.chatname, { secure: true });
-      setCookie("password", password, { secure: true });
-      if (!getCookie("auth")) {
-        setCookie("auth", true);
+      setCookie('at', data.token, { secure: true });
+      setCookie('username', data.username, { secure: true });
+      setCookie('chatname', data.chatname, { secure: true });
+      setCookie('password', password, { secure: true });
+      if (!getCookie('auth')) {
+        setCookie('auth', true);
         document.location.reload();
       }
     }
@@ -48,16 +48,16 @@ export function authUser(username, password) {
 }
 
 export async function authLoginAndPassword(username, password) {
-  const apiPath = "/api/user/auth";
+  const apiPath = '/api/user/auth';
   const payload = {
     username,
     password,
   };
   const config = {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
   };
@@ -65,14 +65,14 @@ export async function authLoginAndPassword(username, password) {
 }
 
 function showChat() {
-  inputLoginAuth.value = inputPasswordAuth.value = "";
-  authPage.classList.add("hide");
-  accountPage.classList.add("hide");
-  chatPage.classList.remove("hide");
+  inputLoginAuth.value = inputPasswordAuth.value = '';
+  authPage.classList.add('hide');
+  accountPage.classList.add('hide');
+  chatPage.classList.remove('hide');
   inputMessage.focus();
 }
 
-linkToAccount.addEventListener("click", function () {
-  accountPage.classList.remove("hide");
-  authPage.classList.add("hide");
+linkToAccount.addEventListener('click', function () {
+  accountPage.classList.remove('hide');
+  authPage.classList.add('hide');
 });

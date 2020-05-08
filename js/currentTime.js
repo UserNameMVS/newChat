@@ -5,11 +5,11 @@ export function currentTime() {
   let currentHour = addZeroFormatTime(currentDate.getHours());
   let currentMinutes = addZeroFormatTime(currentDate.getMinutes());
 
-  return currentHour + ":" + currentMinutes;
+  return currentHour + ':' + currentMinutes;
 }
 
 function addZeroFormatTime(value) {
-  if (value < 10) value = "0" + value;
+  if (value < 10) value = '0' + value;
   return value;
 }
 
@@ -22,5 +22,5 @@ export function currentTimeMessage() {
   let currentSeconds = currentDate.getSeconds();
   let currentMilliseconds = currentDate.getMilliseconds();
 
-  return currentYear + "" + currentMonth + "" + currentHour + "" +  currentMinutes + "" + currentSeconds + "" + currentMilliseconds;
+  return currentYear + '' + currentMonth + '' + currentHour + '' +  currentMinutes + '' + currentSeconds + '' + currentMilliseconds;
 }

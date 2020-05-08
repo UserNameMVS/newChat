@@ -1,29 +1,29 @@
 'use strict';
 
-import { apiRequest } from "./apiClient.js";
-import { settingForm, settingInput, closeBtn } from "./uiElements.js";
-import { setCookie, getCookie } from "./cookie.js";
+import { apiRequest } from './apiClient.js';
+import { settingForm, settingInput, closeBtn } from './uiElements.js';
+import { setCookie, getCookie } from './cookie.js';
 
-settingForm.addEventListener("submit", submitSettingForm);
+settingForm.addEventListener('submit', submitSettingForm);
 
 function submitSettingForm(e) {
   e.preventDefault();
   changeChatName(settingInput.value).then((data) => {
-    setCookie("chatname", data.chatname, { secure: true });
+    setCookie('chatname', data.chatname, { secure: true });
     document.location.reload();
   });
 }
 
 async function changeChatName(chatname) {
-  const apiPath = "/api/user";
+  const apiPath = '/api/user';
   const payload = {
     chatname,
   };
   const config = {
-    method: "PATCH",
+    method: 'PATCH',
     headers: {
-      Authorization: `Bearer ${getCookie("at")}`,
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${getCookie('at')}`,
+      'Content-Type': 'application/json',
     },
 
     body: JSON.stringify(payload),
@@ -31,6 +31,6 @@ async function changeChatName(chatname) {
   return await apiRequest(apiPath, config);
 }
 
-closeBtn.addEventListener("click", function () {
-  closeBtn.parentNode.parentNode.classList.add("hide");
+closeBtn.addEventListener('click', function () {
+  closeBtn.parentNode.parentNode.classList.add('hide');
 });

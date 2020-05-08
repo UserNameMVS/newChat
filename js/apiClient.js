@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
-import { serverURL } from "./config.js";
-import { getCookie } from "./cookie.js";
+import { serverURL } from './config.js';
+import { getCookie } from './cookie.js';
 
 export const apiRequest = async (apiPath, config, params) => {
   if (params === undefined) {
-    params = "";
+    params = '';
   }
   try {
     let res = await fetch(serverURL + apiPath + params, config);
@@ -14,36 +14,27 @@ export const apiRequest = async (apiPath, config, params) => {
     }
     return await res.json();
   } catch (err) {
-    console.log("Ошибка: ", err.message);
+    console.log('Ошибка: ', err.message);
   }
 };
 
 export const getUser = async (username) => {
-  const apiPath = "/api/user?";
+  const apiPath = '/api/user?';
   const config = {
-    method: "GET",
+    method: 'GET',
   };
   let params = `username=${username}`;
   return await apiRequest(apiPath, config, params);
 };
 
 export const getDataMessages = async () => {
-  const apiPath = "/api/messages";
+  const apiPath = '/api/messages';
   const config = {
-    method: "GET",
+    method: 'GET',
     headers: {
-      Authorization: `Bearer ${getCookie("at")}`,
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${getCookie('at')}`,
+      'Content-Type': 'application/json',
     },
   };
   return await apiRequest(apiPath, config);
 };
-
-// getDataMessages().then(data => {
-// console.log(data)
-//   let dataMessages = data.messages;
-//   for(let i = 0; i < dataMessages.length; i++) {
-//     console.log(dataMessages[i])
-//   }
-//   console.log(data.messages.slice(0,10))
-// })

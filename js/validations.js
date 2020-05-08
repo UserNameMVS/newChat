@@ -1,6 +1,6 @@
 'use strict';
 
-import { inputMessage } from "./uiElements.js";
+import { inputMessage } from './uiElements.js';
 
 export function isValidLogin(loginUser) {
   loginUser = loginUser.trim();

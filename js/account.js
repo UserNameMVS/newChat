@@ -1,11 +1,11 @@
 'use strict';
 
-import { accountForm, inputLoginAccount, inputPasswordAccount, authPage, linkToAuth, accountPage } from "./uiElements.js";
-import { isValidLogin, isValidPassword } from "./validations.js";
-import { apiRequest, getUser } from "./apiClient.js";
-import { authUser } from "./auth.js";
+import { accountForm, inputLoginAccount, inputPasswordAccount, authPage, linkToAuth, accountPage } from './uiElements.js';
+import { isValidLogin, isValidPassword } from './validations.js';
+import { apiRequest, getUser } from './apiClient.js';
+import { authUser } from './auth.js';
 
-accountForm.addEventListener("submit", submitAccountForm);
+accountForm.addEventListener('submit', submitAccountForm);
 
 function submitAccountForm(e) {
   e.preventDefault();
@@ -27,23 +27,23 @@ async function addUser(username, password) {
 
 async function createUser(username, password) {
   let params = `username=${username}`;
-  const apiPath = "/api/user?";
+  const apiPath = '/api/user?';
   const payload = {
     username,
     password,
   };
   const config = {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
   };
   return await apiRequest(apiPath, config, params);
 }
 
-linkToAuth.addEventListener("click", function(){
-    authPage.classList.remove("hide");
-    accountPage.classList.add("hide");
+linkToAuth.addEventListener('click', function(){
+    authPage.classList.remove('hide');
+    accountPage.classList.add('hide');
 });
