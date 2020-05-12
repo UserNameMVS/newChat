@@ -1,5 +1,6 @@
 @charset "UTF-8";
 body {
+  margin: 0;
   background: #e5e5e5;
 }
 
@@ -77,6 +78,9 @@ body {
 }
 
 .chat__content {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
   display: block;
   height: 436px;
   margin-bottom: 7px;
@@ -96,7 +100,6 @@ body {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
-  margin-bottom: 7px;
 }
 
 .chat__form {

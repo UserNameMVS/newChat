@@ -18,10 +18,19 @@ import { isValidTextMessage } from './validations.js';
 import { currentTime, currentTimeMessage } from './currentTime.js';
 import { getDataMessages } from './apiClient.js';
 
+function downloadedMessages() {
+  let count  = 0;
+  return function () {
+    return count += 20;
+  }
+}
+
+let countDownloadMessages = downloadedMessages();
+
 export function addDataMessagesToChat(count) {
-  getDataMessages().then(data => {
+  console.log(countDownloadMessages())
+  getDataMessages(count).then(data => {
     const { messages } = data;
-    console.log(messages)
     for(let i = messages.length - 1; i >= 0; i--) {
         let newMessage = new Message(messages[i].chatname, messages[i].message);
         if(messages[i].username === getCookie('username')) {
@@ -36,10 +45,18 @@ export function addDataMessagesToChat(count) {
         newMessage.message.querySelector('#message-time').textContent = (messages[i].createdAt.slice(11, 16));
         messageList.append(newMessage.message);
     }
-    chatContent.append(messageList);
+    chatContent.prepend(messageList);
+    console.log( chatContent.scrollTop + ', ' + chatContent.scrollHeight)
     chatContent.scrollTop = chatContent.scrollHeight;
+    console.log( chatContent.scrollTop + ', ' + chatContent.scrollHeight)
   })
 }
+
+// chatContent.addEventListener('scroll', function() {
+//   if(chatContent.scrollTop < 400) {
+//     addDataMessagesToChat(countDownloadMessages())
+//   }
+// })
 
 formInputSendMessage.addEventListener('submit', submitFormHadler);
 
