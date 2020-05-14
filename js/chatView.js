@@ -18,20 +18,11 @@ import { isValidTextMessage } from './validations.js';
 import { currentTime, currentTimeMessage } from './currentTime.js';
 import { getDataMessages } from './apiClient.js';
 
-function downloadedMessages() {
-  let count  = 0;
-  return function () {
-    return count += 20;
-  }
-}
-
-let countDownloadMessages = downloadedMessages();
-
 export function addDataMessagesToChat(count) {
-  console.log(countDownloadMessages())
   getDataMessages(count).then(data => {
     const { messages } = data;
-    for(let i = messages.length - 1; i >= 0; i--) {
+    let currentScroll = chatContent.scrollHeight;
+    for(let i = 0; i < messages.length; i++) {
         let newMessage = new Message(messages[i].chatname, messages[i].message);
         if(messages[i].username === getCookie('username')) {
           newMessage.message.classList.add('chat-message--outgoing')
@@ -43,20 +34,30 @@ export function addDataMessagesToChat(count) {
           newMessage.message.classList.add('chat-message--incoming')
         }
         newMessage.message.querySelector('#message-time').textContent = (messages[i].createdAt.slice(11, 16));
-        messageList.append(newMessage.message);
+        messageList.prepend(newMessage.message);
     }
-    chatContent.prepend(messageList);
-    console.log( chatContent.scrollTop + ', ' + chatContent.scrollHeight)
-    chatContent.scrollTop = chatContent.scrollHeight;
-    console.log( chatContent.scrollTop + ', ' + chatContent.scrollHeight)
+    if(count === undefined) {
+      chatContent.scrollTop = chatContent.scrollHeight - chatContent.clientHeight;
+    } else {
+      chatContent.scrollTop = chatContent.scrollHeight - currentScroll;
+    }
   })
 }
 
-// chatContent.addEventListener('scroll', function() {
-//   if(chatContent.scrollTop < 400) {
-//     addDataMessagesToChat(countDownloadMessages())
-//   }
-// })
+chatContent.addEventListener('scroll', function() {
+  if(chatContent.scrollTop === 0) {
+    addDataMessagesToChat(countDownloadMessages())
+  }
+})
+
+function downloadedMessages() {
+  let count  = 0;
+  return function () {
+    return count += 20;
+  }
+}
+
+let countDownloadMessages = downloadedMessages();
 
 formInputSendMessage.addEventListener('submit', submitFormHadler);
 
@@ -74,7 +75,6 @@ export function submitFormHadler(e) {
     newMessage.message.querySelector('#message-time').textContent = currentTime();
     newMessage.addMessageToChat();
     sendMessage(inputMessage.value, messageId);
-    chatContent.scrollTop = chatContent.scrollHeight;
   }
 }
 

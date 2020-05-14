@@ -3,9 +3,7 @@
 //chat
 export const chatPage = document.querySelector('#chat-page');
 export const chatContent = document.querySelector('.chat__content');
-export let messageList = document.createElement('div');
-messageList.classList.add('chat__messages');
-messageList.id = 'chat-messages';
+export let messageList = chatContent.querySelector('#chat-messages');
 export const chatMessage = messageList.children;
 export const formInputSendMessage = document.getElementById('chat-form');
 export const inputMessage = formInputSendMessage.querySelector('.chat__form-input');

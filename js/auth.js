@@ -20,7 +20,6 @@ import { addDataMessagesToChat } from './chatView.js';
     authLoginAndPassword(getCookie('username'), getCookie('password'))
       .then(() => {
           addDataMessagesToChat();
-          console.log( chatContent.scrollTop + ', ' + chatContent.scrollHeight)
           chatContent.scrollTop = chatContent.scrollHeight;
           showChat();
         }

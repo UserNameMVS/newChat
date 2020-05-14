@@ -148,6 +148,10 @@ body {
   margin-bottom: 5px;
 }
 
+.chat-message:first-child {
+  margin-top: 5px;
+}
+
 .chat-message--outgoing {
   -ms-flex-item-align: end;
       align-self: flex-end;

@@ -1,7 +1,7 @@
 'use strict';
 
 import { socket } from './client.js';
-import { inputMessage } from './uiElements.js';
+import { inputMessage, chatContent } from './uiElements.js';
 import { getCookie } from './cookie.js';
 import { Message } from './Message.js'
 
@@ -17,6 +17,7 @@ socket.on('message', function (msg) {
     newMessage.message.classList.add('chat-message--incoming');
     newMessage.addMessageToChat();
   }
+  chatContent.scrollTop = chatContent.scrollHeight - chatContent.clientHeight;
 });
 
 export function sendMessage(textMessage, id) {
