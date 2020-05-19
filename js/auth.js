@@ -13,13 +13,13 @@ import {
   linkToAccount,
   chatContent
 } from './uiElements.js';
-import { addDataMessagesToChat } from './chatView.js';
+import { addMessagesToChat } from './chatView.js';
 
-(function isAuth() {
+(function autoAuth() {
   if (getCookie('at')) {
-    authLoginAndPassword(getCookie('username'), getCookie('password'))
+    auth(getCookie('username'), getCookie('password'))
       .then(() => {
-          addDataMessagesToChat();
+          addMessagesToChat();
           chatContent.scrollTop = chatContent.scrollHeight;
           showChat();
         }
@@ -35,7 +35,7 @@ function submitAuthForm(e) {
 }
 
 export function authUser(username, password) {
-  authLoginAndPassword(username, password).then((data) => {
+  auth(username, password).then((data) => {
     if (data.token) {
       setCookie('at', data.token, { secure: true });
       setCookie('username', data.username, { secure: true });
@@ -49,8 +49,8 @@ export function authUser(username, password) {
   });
 }
 
-export async function authLoginAndPassword(username, password) {
-  const apiPath = '/api/user/auth';
+export function auth(username, password) {
+  const apiPath = 'user/auth';
   const payload = {
     username,
     password,
@@ -63,7 +63,7 @@ export async function authLoginAndPassword(username, password) {
     },
     body: JSON.stringify(payload),
   };
-  return await apiRequest(apiPath, config);
+  return apiRequest(apiPath, config);
 }
 
 function showChat() {

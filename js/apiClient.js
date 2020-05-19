@@ -3,32 +3,30 @@
 import { serverURL } from './config.js';
 import { getCookie } from './cookie.js';
 
-export const apiRequest = async (apiPath, config, params) => {
-  if (params === undefined) {
-    params = '';
-  }
+export const apiRequest = async (apiPath, config, params = '') => {
   try {
-    let res = await fetch(serverURL + apiPath + params, config);
-    if (res.status !== 200) {
-      throw new SyntaxError(data.error);
-    }
+    let res = await fetch(serverURL + '/api/' + apiPath + params, config);
+    console.log(res)
+    // if (res.status === 200) {
+    //   return await res.json();
+    // }
     return await res.json();
   } catch (err) {
     console.log('Ошибка: ', err.message);
   }
 };
 
-export const getUser = async (username) => {
-  const apiPath = '/api/user?';
+export const getUser = username => {
+  const apiPath = 'user';
   const config = {
     method: 'GET',
   };
-  let params = `username=${username}`;
-  return await apiRequest(apiPath, config, params);
+  let params = `?username=${username}`;
+  return apiRequest(apiPath, config, params);
 };
 
-export const getDataMessages = async (uplouded = 0) => {
-  const apiPath = `/api/messages?offset=${uplouded}`;
+export const getMessages = (uplouded = 0) => {
+  const apiPath = `messages?offset=${uplouded}`;
   const config = {
     method: 'GET',
     headers: {
@@ -36,5 +34,5 @@ export const getDataMessages = async (uplouded = 0) => {
       'Content-Type': 'application/json',
     },
   };
-  return await apiRequest(apiPath, config);
+  return apiRequest(apiPath, config);
 };

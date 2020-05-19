@@ -1,7 +1,7 @@
 'use strict';
 
 import { accountForm, inputLoginAccount, inputPasswordAccount, authPage, linkToAuth, accountPage } from './uiElements.js';
-import { isValidLogin, isValidPassword } from './validations.js';
+import { validLogin, validPassword } from './validations.js';
 import { apiRequest, getUser } from './apiClient.js';
 import { authUser } from './auth.js';
 
@@ -14,20 +14,20 @@ function submitAccountForm(e) {
   addUser(username, password).then(() => authUser(username, password));
 }
 
-async function addUser(username, password) {
-  isValidLogin(username);
-  isValidPassword(password);
-  if (isValidLogin && isValidPassword) {
-    username = isValidLogin(username);
-    password = isValidPassword(password);
-    await createUser(username, password);
-    return await getUser(username);
+function addUser(username, password) {
+  validLogin(username);
+  validPassword(password);
+  if (validLogin && validPassword) {
+    username = validLogin(username);
+    password = validPassword(password);
+    createUser(username, password);
+    return getUser(username);
   }
 }
 
-async function createUser(username, password) {
-  let params = `username=${username}`;
-  const apiPath = '/api/user?';
+function createUser(username, password) {
+  let params = `?username=${username}`;
+  const apiPath = 'user';
   const payload = {
     username,
     password,
@@ -40,7 +40,7 @@ async function createUser(username, password) {
     },
     body: JSON.stringify(payload),
   };
-  return await apiRequest(apiPath, config, params);
+  return apiRequest(apiPath, config, params);
 }
 
 linkToAuth.addEventListener('click', function(){

@@ -3,4 +3,10 @@
 import { serverURL } from './config.js';
 import { getCookie } from './cookie.js';
 
-export let socket = io(serverURL, { query: `at=${getCookie('at')}` });
+
+export const connectSocket = () => {
+  if(getCookie('at')) {
+    let socket = io(serverURL, { query: `at=${getCookie('at')}` });
+    return socket
+  }
+}

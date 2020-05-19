@@ -8,14 +8,14 @@ settingForm.addEventListener('submit', submitSettingForm);
 
 function submitSettingForm(e) {
   e.preventDefault();
-  changeChatName(settingInput.value).then((data) => {
-    setCookie('chatname', data.chatname, { secure: true });
+  changeChatName(settingInput.value).then(({ chatname }) => {
+    setCookie('chatname', chatname, { secure: true });
     document.location.reload();
   });
 }
 
 async function changeChatName(chatname) {
-  const apiPath = '/api/user';
+  const apiPath = 'user';
   const payload = {
     chatname,
   };

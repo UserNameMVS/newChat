@@ -13,27 +13,22 @@ import {
 } from './uiElements.js';
 import { Message } from './Message.js';
 import { sendMessage } from './controller.js';
-import { setCookie, getCookie, deleteAllCookies } from './cookie.js';
-import { isValidTextMessage } from './validations.js';
-import { currentTime, currentTimeMessage } from './currentTime.js';
-import { getDataMessages } from './apiClient.js';
+import { getCookie, deleteAllCookies } from './cookie.js';
+import { validTextMessage } from './validations.js';
+import { currentTime } from './currentTime.js';
+import { getMessages } from './apiClient.js';
 
-export function addDataMessagesToChat(count) {
-  getDataMessages(count).then(data => {
+export function addMessagesToChat(count) {
+  getMessages(count).then(data => {
     const { messages } = data;
     let currentScroll = chatContent.scrollHeight;
     for(let i = 0; i < messages.length; i++) {
-        let newMessage = new Message(messages[i].chatname, messages[i].message);
+        const newMessage = new Message(messages[i].chatname, messages[i].message);
+        newMessage.addClass(messages[i].username);
         if(messages[i].username === getCookie('username')) {
-          newMessage.message.classList.add('chat-message--outgoing')
-          let status = document.createElement('span');
-          status.className = 'chat-message__status';
-          status.innerHTML = 'Доставлено';
-          newMessage.message.prepend(status);
-        } else {
-          newMessage.message.classList.add('chat-message--incoming')
+          newMessage.addStatus();
         }
-        newMessage.message.querySelector('#message-time').textContent = (messages[i].createdAt.slice(11, 16));
+        newMessage.addTime(messages[i].createdAt.slice(11, 16));
         messageList.prepend(newMessage.message);
     }
     if(count === undefined) {
@@ -46,7 +41,7 @@ export function addDataMessagesToChat(count) {
 
 chatContent.addEventListener('scroll', function() {
   if(chatContent.scrollTop === 0) {
-    addDataMessagesToChat(countDownloadMessages())
+    addMessagesToChat(countDownloadMessages())
   }
 })
 
@@ -67,21 +62,14 @@ export function submitFormHadler(e) {
     chatPage.classList.add('hide');
     authPage.classList.remove('hide');
   }
-  if (isValidTextMessage(inputMessage.value)) {
-    let newMessage = new Message(getCookie('chatname'), inputMessage.value);
-    newMessage.message.classList.add('chat-message--outgoing');
-    const messageId = addIdMessage(getCookie('username'));
-    newMessage.message.id = messageId;
-    newMessage.message.querySelector('#message-time').textContent = currentTime();
-    newMessage.addMessageToChat();
-    sendMessage(inputMessage.value, messageId);
+  if (validTextMessage(inputMessage.value)) {
+    const newMessage = new Message(getCookie('chatname'), inputMessage.value);
+    newMessage.addClass(getCookie('username'));
+    newMessage.addId();
+    newMessage.addTime(currentTime());
+    messageList.append(newMessage.message);
+    sendMessage(inputMessage.value, getCookie('id'));
   }
-}
-
-function addIdMessage(userName) {
-  const id = userName + currentTimeMessage();
-  setCookie('id', id);
-  return id;
 }
 
 linkToSetting.addEventListener('click', function () {

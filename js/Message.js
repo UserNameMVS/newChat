@@ -1,6 +1,8 @@
 'use strict';
 
-import { templateMessage, messageList } from './uiElements.js';
+import { templateMessage } from './uiElements.js';
+import { setCookie, getCookie } from './cookie.js';
+import { currentTimeMessage } from './currentTime.js';
 
 export class Message {
   constructor(userName, textMessage) {
@@ -12,8 +14,27 @@ export class Message {
     ).textContent = this.userName;
     this.message.querySelector('#message-text').textContent = this.textMessage;
   }
+  addClass(user) {
+    if(user === getCookie('username')) {
+      this.message.classList.add('chat-message--outgoing')
+    } else {
+      this.message.classList.add('chat-message--incoming')
+    }
+  }
+  addTime(time) {
+    this.message.querySelector('#message-time').textContent = time;
+  }
 
-  addMessageToChat() {
-    messageList.appendChild(this.message);
+  addStatus() {
+    const status = document.createElement('span');
+    status.className = 'chat-message__status';
+    status.textContent = 'Доставлено';
+    this.message.prepend(status);
+  }
+
+  addId() {
+    const id = getCookie('username') + currentTimeMessage();
+    this.message.id = id;
+    setCookie('id', id);
   }
 }

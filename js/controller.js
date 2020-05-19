@@ -1,13 +1,13 @@
 'use strict';
 
-import { socket } from './client.js';
-import { inputMessage, chatContent } from './uiElements.js';
+import { connectSocket } from './client.js';
+import { inputMessage, chatContent, messageList } from './uiElements.js';
 import { getCookie } from './cookie.js';
 import { Message } from './Message.js'
 
 
 if(getCookie('at')) {
-  socket.on('message', function (msg) {
+  connectSocket().on('message', function (msg) {
     if(msg.username === getCookie('username')) {
       let message = document.querySelector(`#${msg.messageId}`);
       let status = document.createElement('span');
@@ -16,14 +16,16 @@ if(getCookie('at')) {
       message.prepend(status);
     } else if (!msg.error){
       const newMessage = new Message(msg.chatname, msg.message);
-      newMessage.message.classList.add('chat-message--incoming');
-      newMessage.addMessageToChat();
+      newMessage.addClass();
+      console.log(newMessage)
+      messageList.append(newMessage.message);
     }
+    console.log(msg)
     chatContent.scrollTop = chatContent.scrollHeight - chatContent.clientHeight;
   });
 }
 
 export function sendMessage(textMessage, id) {
-  socket.emit('message', { message: textMessage, messageId: id});
+  connectSocket().emit('message', { message: textMessage, messageId: id});
   inputMessage.clear();
 }

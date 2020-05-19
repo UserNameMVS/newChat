@@ -1,9 +1,9 @@
 'use strict';
 
 export function currentTime() {
-  let currentDate = new Date();
-  let currentHour = addZeroFormatTime(currentDate.getHours());
-  let currentMinutes = addZeroFormatTime(currentDate.getMinutes());
+  const currentDate = new Date();
+  const currentHour = addZeroFormatTime(currentDate.getHours());
+  const currentMinutes = addZeroFormatTime(currentDate.getMinutes());
 
   return currentHour + ':' + currentMinutes;
 }
@@ -14,13 +14,13 @@ function addZeroFormatTime(value) {
 }
 
 export function currentTimeMessage() {
-  let currentDate = new Date();
-  let currentYear = currentDate.getFullYear();
-  let currentMonth = currentDate.getMonth();
-  let currentHour = currentDate.getHours();
-  let currentMinutes = currentDate.getMinutes();
-  let currentSeconds = currentDate.getSeconds();
-  let currentMilliseconds = currentDate.getMilliseconds();
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+  const currentHour = currentDate.getHours();
+  const currentMinutes = currentDate.getMinutes();
+  const currentSeconds = currentDate.getSeconds();
+  const currentMilliseconds = currentDate.getMilliseconds();
 
   return currentYear + '' + currentMonth + '' + currentHour + '' +  currentMinutes + '' + currentSeconds + '' + currentMilliseconds;
 }
