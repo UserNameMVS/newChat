@@ -116,14 +116,17 @@
         <button class="popup__btn-close">Закрыть</button>
       </div>
     </section>
-    <template id="template__message">
+    <template id="template-message">
       <div class="chat-message" tabindex="0">
         <div class="chat-message__inner">
-          <span class="chat-message__name" id="message-user-name"></span>
-          <p class="chat-message__text" id="message-text"></p>
+          <span class="chat-message__name"></span>
+          <p class="chat-message__text"></p>
         </div>
-        <time class="chat-message__time" id="message-time" pubdate></time>
+        <time class="chat-message__time" pubdate></time>
       </div>
+    </template>
+    <template id="template-status">
+      <span class="chat-message__status">Доставлено</span>
     </template>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script type="module" src="js/main.js"></script>

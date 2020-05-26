@@ -43,7 +43,9 @@ function createUser(username, password) {
   return apiRequest(apiPath, config, params);
 }
 
-linkToAuth.addEventListener('click', function(){
-    authPage.classList.remove('hide');
-    accountPage.classList.add('hide');
-});
+linkToAuth.addEventListener('click', linkToAuthHandler);
+
+function linkToAuthHandler() {
+  authPage.classList.remove('hide');
+  accountPage.classList.add('hide');
+}

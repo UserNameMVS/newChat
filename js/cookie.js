@@ -1,16 +1,18 @@
 'use strict';
 
+import { getTimeSession } from './time.js';
+
 export function setCookie(name, value, options = {}) {
+  // let date = new Date(Date.now() + 10 *1000);
+  // date = date.toUTCString();
   options = {
     path: '/',
-    SameSite: 'None',
-    'max-age': 9600
+    expires: getTimeSession()
   };
   if (options.expires instanceof Date) {
     options.expires = options.expires.toUTCString();
   }
-  let updatedCookie =
-    encodeURIComponent(name) + '=' + encodeURIComponent(value);
+  let updatedCookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
   for (let optionKey in options) {
     updatedCookie += '; ' + optionKey;
     let optionValue = options[optionKey];
@@ -23,9 +25,7 @@ export function setCookie(name, value, options = {}) {
 
 export function getCookie(name) {
   let matches = document.cookie.match(
-    new RegExp(
-      '(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'
-    )
+    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : '';
 }

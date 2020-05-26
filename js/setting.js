@@ -4,9 +4,9 @@ import { apiRequest } from './apiClient.js';
 import { settingForm, settingInput, closeBtn } from './uiElements.js';
 import { setCookie, getCookie } from './cookie.js';
 
-settingForm.addEventListener('submit', submitSettingForm);
+settingForm.addEventListener('submit', settingFormHandler);
 
-function submitSettingForm(e) {
+function settingFormHandler(e) {
   e.preventDefault();
   changeChatName(settingInput.value).then(({ chatname }) => {
     setCookie('chatname', chatname, { secure: true });
@@ -14,7 +14,7 @@ function submitSettingForm(e) {
   });
 }
 
-async function changeChatName(chatname) {
+function changeChatName(chatname) {
   const apiPath = 'user';
   const payload = {
     chatname,
@@ -28,9 +28,11 @@ async function changeChatName(chatname) {
 
     body: JSON.stringify(payload),
   };
-  return await apiRequest(apiPath, config);
+  return apiRequest(apiPath, config);
 }
 
-closeBtn.addEventListener('click', function () {
+closeBtn.addEventListener('click', closeBtnHandler);
+
+function closeBtnHandler() {
   closeBtn.parentNode.parentNode.classList.add('hide');
-});
+}

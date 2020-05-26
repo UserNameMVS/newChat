@@ -1,31 +1,29 @@
 'use strict';
 
 import { connectSocket } from './client.js';
-import { inputMessage, chatContent, messageList } from './uiElements.js';
+import { chatContent, messageList, templateStatus } from './uiElements.js';
 import { getCookie } from './cookie.js';
-import { Message } from './Message.js'
+import { Message } from './Message.js';
 
-
-if(getCookie('at')) {
+if (getCookie('at')) {
   connectSocket().on('message', function (msg) {
-    if(msg.username === getCookie('username')) {
-      let message = document.querySelector(`#${msg.messageId}`);
-      let status = document.createElement('span');
-      status.className = 'chat-message__status';
-      status.textContent = 'Доставлено';
+    if (msg.username === getCookie('username')) {
+      const message = document.querySelector(`#${msg.messageId}`);
+      const status = templateStatus.cloneNode(true);
       message.prepend(status);
-    } else if (!msg.error){
-      const newMessage = new Message(msg.chatname, msg.message);
-      newMessage.addClass();
-      console.log(newMessage)
-      messageList.append(newMessage.message);
+    } else {
+      const argsMessage = {
+        chatname: msg.chatname,
+        message: msg.message,
+        username: msg.username,
+      };
+      const message = new Message(argsMessage);
+      messageList.append(message.message);
     }
-    console.log(msg)
     chatContent.scrollTop = chatContent.scrollHeight - chatContent.clientHeight;
   });
 }
 
-export function sendMessage(textMessage, id) {
-  connectSocket().emit('message', { message: textMessage, messageId: id});
-  inputMessage.clear();
+export function sendMessage(message, messageId) {
+  connectSocket().emit('message', { message, messageId });
 }

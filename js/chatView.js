@@ -4,7 +4,6 @@ import {
   messageList,
   formInputSendMessage,
   inputMessage,
-  chatPage,
   chatContent,
   authPage,
   logOutBtn,
@@ -15,35 +14,39 @@ import { Message } from './Message.js';
 import { sendMessage } from './controller.js';
 import { getCookie, deleteAllCookies } from './cookie.js';
 import { validTextMessage } from './validations.js';
-import { currentTime } from './currentTime.js';
 import { getMessages } from './apiClient.js';
 
-export function addMessagesToChat(count) {
-  getMessages(count).then(data => {
-    const { messages } = data;
-    let currentScroll = chatContent.scrollHeight;
-    for(let i = 0; i < messages.length; i++) {
-        const newMessage = new Message(messages[i].chatname, messages[i].message);
-        newMessage.addClass(messages[i].username);
-        if(messages[i].username === getCookie('username')) {
-          newMessage.addStatus();
-        }
-        newMessage.addTime(messages[i].createdAt.slice(11, 16));
-        messageList.prepend(newMessage.message);
-    }
-    if(count === undefined) {
-      chatContent.scrollTop = chatContent.scrollHeight - chatContent.clientHeight;
-    } else {
-      chatContent.scrollTop = chatContent.scrollHeight - currentScroll;
-    }
-  })
+export async function addMessagesToChat(count) {
+  const data = await getMessages(count);
+  const { messages } = data;
+  let currentScroll = chatContent.scrollHeight;
+  for(let i = 0; i < messages.length; i++) {
+      const argsMessage = {
+        chatname: messages[i].chatname,
+        message: messages[i].message,
+        username: messages[i].username,
+        time: messages[i].createdAt,
+        status: true
+      }
+      const message = new Message(argsMessage);
+      messageList.prepend(message.message);
+  }
+  if(count === undefined) {
+    chatContent.scrollTop = chatContent.scrollHeight - chatContent.clientHeight;
+  } else {
+    chatContent.scrollTop = chatContent.scrollHeight - currentScroll;
+  }
 }
 
-chatContent.addEventListener('scroll', function() {
-  if(chatContent.scrollTop === 0) {
+chatContent.addEventListener('scroll', chatContentScroll);
+
+function chatContentScroll() {
+  if(!getCookie('at')) {
+    document.location.reload();
+  } else if (chatContent.scrollTop === 0) {
     addMessagesToChat(countDownloadMessages())
   }
-})
+}
 
 function downloadedMessages() {
   let count  = 0;
@@ -54,29 +57,36 @@ function downloadedMessages() {
 
 let countDownloadMessages = downloadedMessages();
 
-formInputSendMessage.addEventListener('submit', submitFormHadler);
+formInputSendMessage.addEventListener('submit', submitFormHandler);
 
-export function submitFormHadler(e) {
+function submitFormHandler(e) {
   e.preventDefault();
   if (!getCookie('at')) {
-    chatPage.classList.add('hide');
-    authPage.classList.remove('hide');
+    document.location.reload();
   }
   if (validTextMessage(inputMessage.value)) {
-    const newMessage = new Message(getCookie('chatname'), inputMessage.value);
-    newMessage.addClass(getCookie('username'));
-    newMessage.addId();
-    newMessage.addTime(currentTime());
-    messageList.append(newMessage.message);
+    const argsMessage = {
+      chatname: getCookie('chatname'),
+      message: inputMessage.value,
+      username: getCookie('username'),
+      id: true
+    }
+    const message = new Message(argsMessage);
+    messageList.append(message.message);
     sendMessage(inputMessage.value, getCookie('id'));
+    inputMessage.clear();
   }
 }
 
-linkToSetting.addEventListener('click', function () {
-  settingsPage.classList.remove('hide');
-});
+linkToSetting.addEventListener('click', linkToSettingHandler);
 
-logOutBtn.addEventListener('click', function () {
+function linkToSettingHandler() {
+  settingsPage.classList.remove('hide');
+}
+
+logOutBtn.addEventListener('click', logOutBtnHandler);
+
+function logOutBtnHandler() {
   deleteAllCookies();
   authPage.classList.remove('hide');
-});
+}

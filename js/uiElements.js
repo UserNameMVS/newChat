@@ -10,8 +10,10 @@ export const inputMessage = formInputSendMessage.querySelector('.chat__form-inpu
 export const linkToSetting = document.getElementById('setting-link');
 export const logOutBtn = document.getElementById('log-out-btn');
 //template
-export const templateMessageContent = document.getElementById('template__message').content;
+export const templateMessageContent = document.getElementById('template-message').content;
 export const templateMessage = templateMessageContent.querySelector('.chat-message');
+export const templateStatusContent = document.getElementById('template-status').content;
+export const templateStatus = templateStatusContent.querySelector('.chat-message__status');
 //account
 export const accountPage = document.getElementById('account-page');
 export const accountForm = accountPage.querySelector('#account-form');
