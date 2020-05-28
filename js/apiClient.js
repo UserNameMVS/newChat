@@ -23,7 +23,7 @@ export const getUser = username => {
 
 export const getMessages = (uplouded = 0) => {
   const apiPath = 'messages';
-  let params = `?offset=${uplouded}`
+  const params = `?offset=${uplouded}`
   const config = {
     method: 'GET',
     headers: {

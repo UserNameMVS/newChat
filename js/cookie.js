@@ -3,8 +3,6 @@
 import { getTimeSession } from './time.js';
 
 export function setCookie(name, value, options = {}) {
-  // let date = new Date(Date.now() + 10 *1000);
-  // date = date.toUTCString();
   options = {
     path: '/',
     expires: getTimeSession()

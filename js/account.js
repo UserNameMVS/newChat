@@ -26,7 +26,7 @@ function addUser(username, password) {
 }
 
 function createUser(username, password) {
-  let params = `?username=${username}`;
+  const params = `?username=${username}`;
   const apiPath = 'user';
   const payload = {
     username,
